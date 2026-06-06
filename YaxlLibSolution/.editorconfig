@@ -1,0 +1,22 @@
+root = true
+
+# すべてのファイルが対象
+[*]
+
+# 文字コードはutf-8
+charset = utf-8
+
+# インデントはスペース
+indent_style = tab
+
+# インデントのスペースの数は4つ
+indent_size = 4
+
+# 改行コードはWindows標準のCRLFにする
+end_of_line = crlf
+
+# 最終行は必ず空行にする
+insert_final_newline = false
+
+# 行末の空白は除去する（残念ながら Visual Studio 2022 は対応していない模様）
+trim_trailing_whitespace = true
