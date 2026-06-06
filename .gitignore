@@ -65,6 +65,7 @@ bld/
 *.la
 *.a
 *.lib
+!ExternalLibrary/**/*.lib
 
 # Executables
 *.exe
