@@ -3,6 +3,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.vcxproj.filters
 
 # Build
 [Dd]ebug/
