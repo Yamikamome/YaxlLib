@@ -23,12 +23,30 @@
     <ClCompile Include="Core\Input\YaxlInput.cpp" />
     <ClCompile Include="Core\Time\YaxlTime.cpp" />
     <ClCompile Include="Graphics\YaxlGraphicsDevice.cpp" />
+    <ClCompile Include="Math\YaxlColor.cpp" />
+    <ClCompile Include="Math\YaxlMath.cpp" />
+    <ClCompile Include="Math\YaxlMatrix3x3.cpp" />
+    <ClCompile Include="Math\YaxlMatrix4x4.cpp" />
+    <ClCompile Include="Math\YaxlQuaternion.cpp" />
+    <ClCompile Include="Math\YaxlRandom.cpp" />
+    <ClCompile Include="Math\YaxlVector2.cpp" />
+    <ClCompile Include="Math\YaxlVector3.cpp" />
+    <ClCompile Include="Math\YaxlVector4.cpp" />
     <ClCompile Include="YaxlGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Input\YaxlInput.h" />
     <ClInclude Include="Core\Time\YaxlTimeInternal.h" />
     <ClInclude Include="Core\Time\YaxlTime.h" />
+    <ClInclude Include="Math\YaxlColor.h" />
+    <ClInclude Include="Math\YaxlMath.h" />
+    <ClInclude Include="Math\YaxlMatrix3x3.h" />
+    <ClInclude Include="Math\YaxlMatrix4x4.h" />
+    <ClInclude Include="Math\YaxlQuaternion.h" />
+    <ClInclude Include="Math\YaxlRandom.h" />
+    <ClInclude Include="Math\YaxlVector2.h" />
+    <ClInclude Include="Math\YaxlVector3.h" />
+    <ClInclude Include="Math\YaxlVector4.h" />
     <ClInclude Include="YaxlLibLink.h" />
     <ClInclude Include="Graphics\YaxlGraphicsDevice.h" />
     <ClInclude Include="YaxlGame.h" />
