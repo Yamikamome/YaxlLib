@@ -1,4 +1,4 @@
-﻿#include "YaxlGraphicsDevice.h"
+#include "YaxlGraphicsDevice.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -72,19 +72,26 @@ void Yaxl::GraphicsDevice::Clear() {
     is_initialized_ = false;
 }
 
+void Yaxl::GraphicsDevice::Update() {
+	if (is_initialized_ == false) {
+		return;
+	}
+
+	// OSイベントの取得
+	glfwPollEvents();
+
+	// 背景をクリア
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+}
+
 void Yaxl::GraphicsDevice::SwapBuffers() {
     if (is_initialized_ == false) {
         return;
     }
 
-    // 背景をクリア
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-
     // 描画したバッファにスワップ
     glfwSwapBuffers(window_handle_);
-    // OSイベントの取得
-    glfwPollEvents();
 }
 
 bool Yaxl::GraphicsDevice::IsWindowClosed() const {
