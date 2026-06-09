@@ -1,4 +1,5 @@
-﻿#include "YaxlLib/YaxlGame.h"
+#include <YaxlGame.h>
+#include <imgui/imgui.h>
 #include <stdio.h>
 
 class MyGame : public Yaxl::Game {
@@ -15,7 +16,12 @@ protected:
 	}
 
 	void update() override {
+		ImGui::Begin("YaxlLibDebugWindow");
+		ImGui::Text("hello!");
+		ImGui::End();
 
+
+		printf("hi\n");
 	}
 
 	void draw() const override {
