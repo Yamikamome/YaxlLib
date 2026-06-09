@@ -31,6 +31,9 @@ bld/
 # MacOS
 .DS_Store
 
+# IMGUI settings
+YaxlLibSolution/Game/imgui.ini
+
 # Prerequisites
 *.d
 
