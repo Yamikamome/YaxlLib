@@ -136,6 +136,30 @@ int Game::run() {
 	return 0;
 }
 
+void Yaxl::Game::SetFullScreen(bool is_fullscreen) {
+	if (graphics_device_ != nullptr) {
+		graphics_device_->SetFullScreen(is_fullscreen);
+	}
+}
+
+void Yaxl::Game::SetBorderless(bool is_borderless) {
+	if (graphics_device_ != nullptr) {
+		graphics_device_->SetBorderless(is_borderless);
+	}
+}
+
+void Yaxl::Game::ToggleFullScreen() {
+	if (graphics_device_ != nullptr) {
+		graphics_device_->ToggleFullScreen();
+	}
+}
+
+void Yaxl::Game::ToggleBorderless() {
+	if (graphics_device_ != nullptr) {
+		graphics_device_->ToggleBorderless();
+	}
+}
+
 void Game::ClearGraphicsDevice() {
 	if (graphics_device_ != nullptr) {
 		delete graphics_device_;

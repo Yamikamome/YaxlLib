@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------
 //  Author        : Yamikamome
 //  Description	  : YaxlLibを使ったゲーム制作を行うためのクラス
 // -----------------------------------------------------------------------------------------
@@ -31,6 +31,28 @@ public:
     /// </summary>
     /// <returns>状態を返す</returns>
     int run();
+
+	/// <summary>
+	/// フルスクリーンの設定
+	/// </summary>
+	/// <param name="is_fullscreen">= フルスクリーンにするかどうか</param>
+	void SetFullScreen(bool is_fullscreen);
+
+	/// <summary>
+	/// ボーダーレスウィンドウの設定
+	/// </summary>
+	/// <param name="is_borderless">= ボーダーレスウィンドウにするかどうか</param>
+	void SetBorderless(bool is_borderless);
+
+	/// <summary>
+	/// フルスクリーンの切り替え
+	/// </summary>
+	void ToggleFullScreen();
+
+	/// <summary>
+	/// ボーダーレスウィンドウの切り替え
+	/// </summary>
+	void ToggleBorderless();
 
 public:
     /// <summary>
