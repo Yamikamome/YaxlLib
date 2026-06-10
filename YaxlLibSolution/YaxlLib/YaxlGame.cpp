@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include "Core/Time/YaxlTimeInternal.h"
 #include "Graphics/DebugGui/YaxlDebugGui.h"
+#include "Graphics/YaxlGraphicsInternal.h"
 
 using namespace Yaxl;
 using namespace Internal;
@@ -21,10 +22,6 @@ Game::Game(int width, int height, const char* title, int target_fps, int tick_ra
 	// 初期設定の保存
 	SetTargetFps(target_fps);
 	SetTickRate(tick_rate);
-
-	// ImGuiの初期化
-	GLFWwindow* window = graphics_device_->GetWindowHandle();
-	DebugGui::Init(window);
 }
 
 Game::~Game() {
@@ -39,10 +36,16 @@ int Game::run() {
 	// 実行中にする
 	is_running_ = true;
 
+	// グラフィックの初期化
+	InitGraphics();
+
+	// ImGuiの初期化
+	GLFWwindow* window = graphics_device_->GetWindowHandle();
+	DebugGui::Init(window);
+
 	// 時間管理の初期化
 	double prev_time = glfwGetTime();
 	double tick_accumulator = 0.0f;
-
 	// 1tickあたりに必要な時間（秒）を計算する
 	const double tick_interval = 1.0f / GetTickRate();
 
@@ -111,8 +114,11 @@ int Game::run() {
 
 	// 実行終了
 	is_running_ = false;
+
 	// ImGuiを解放
 	DebugGui::Clear();
+	// グラフィックを解放
+	ClearGraphics();
 	// グラフィックデバイスを解放
 	ClearGraphicsDevice();
 
