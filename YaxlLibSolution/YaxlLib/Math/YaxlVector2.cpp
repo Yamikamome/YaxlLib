@@ -198,6 +198,6 @@ bool Vector2::operator!=(const Vector2& rhs) const {
 	return !(*this == rhs);
 }
 
-Vector2 operator*(float d, const Vector2& rhs) {
+Vector2 Yaxl::operator*(float d, const Vector2& rhs) {
 	return Vector2(rhs.x * d, rhs.y * d);
 }

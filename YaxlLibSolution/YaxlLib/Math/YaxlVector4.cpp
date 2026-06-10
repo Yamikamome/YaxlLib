@@ -229,6 +229,6 @@ bool Vector4::operator!=(const Vector4& rhs) const {
 	return !(*this == rhs);
 }
 
-Vector4 operator*(float d, const Vector4& rhs) {
+Vector4 Yaxl::operator*(float d, const Vector4& rhs) {
 	return Vector4(rhs.x * d, rhs.y * d, rhs.z * d, rhs.w * d);
 }
