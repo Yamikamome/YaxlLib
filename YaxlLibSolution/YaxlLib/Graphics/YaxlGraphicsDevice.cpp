@@ -61,6 +61,9 @@ bool GraphicsDevice::Init(int width, int height, const char* title) {
         return false;
     }
 
+	// 垂直同期は使わない
+	glfwSwapInterval(0);
+
     // 初期化に成功したら情報を保存
     window_width_ = width;
     window_height_ = height;
@@ -94,7 +97,7 @@ void GraphicsDevice::Update() {
 
 	// 背景をクリア
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void GraphicsDevice::SwapBuffers() {

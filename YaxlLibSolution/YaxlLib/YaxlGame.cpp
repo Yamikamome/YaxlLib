@@ -1,6 +1,9 @@
 #include "YaxlGame.h"
 
 #include <GLFW/glfw3.h>
+#include <thread>
+#include <chrono>
+
 #include "Core/Time/YaxlTimeInternal.h"
 #include "Graphics/DebugGui/YaxlDebugGui.h"
 #include "Graphics/YaxlGraphicsInternal.h"
@@ -65,15 +68,30 @@ int Game::run() {
 		}
 
 		// 経過時間を取得
-		const double current_time = glfwGetTime();
-		const double frame_time = current_time - prev_time;
-		// FPSを制限する
+		double current_time = glfwGetTime();
+		double frame_time = current_time - prev_time;
+
+		// FPSを制限
 		const int target_fps = GetTargetFps();
 		if (target_fps > 0) {
-			const double target_frame_time = 1.0 / target_fps;
-			// 目標時間に達していない
+			const double target_frame_time = 1.0f / target_fps;
+
+			// 目標時間に達していない場合は待機
 			if (frame_time < target_frame_time) {
-				continue;
+				// OSのsleepを使って待機（精度対策で少し早めに終わる）
+				double sleep_time = target_frame_time - frame_time - 0.02f;
+				if (sleep_time > 0.0f) {
+					std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(sleep_time * 1000.0f)));
+				}
+
+				// sleepを抜けたら精度対策の時間が終わるまで普通に更新
+				while ((glfwGetTime() - prev_time) < target_frame_time) {
+					// 何もしない
+				}
+
+				// 待機が終了したら情報を更新
+				current_time = glfwGetTime();
+				frame_time = current_time - prev_time;
 			}
 		}
 
