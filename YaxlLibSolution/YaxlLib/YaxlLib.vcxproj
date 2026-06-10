@@ -28,7 +28,10 @@
     <ClCompile Include="ExternalLibrary\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="ExternalLibrary\imgui\imgui_tables.cpp" />
     <ClCompile Include="ExternalLibrary\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Graphics\YaxlGraphics.cpp" />
     <ClCompile Include="Graphics\YaxlGraphicsDevice.cpp" />
+    <ClCompile Include="Graphics\YaxlShader.cpp" />
+    <ClCompile Include="Graphics\YaxlTexture.cpp" />
     <ClCompile Include="Math\YaxlColor.cpp" />
     <ClCompile Include="Math\YaxlMath.cpp" />
     <ClCompile Include="Math\YaxlMatrix3x3.cpp" />
@@ -58,6 +61,10 @@
     <ClInclude Include="ExternalLibrary\imgui\imstb_rectpack.h" />
     <ClInclude Include="ExternalLibrary\imgui\imstb_textedit.h" />
     <ClInclude Include="ExternalLibrary\imgui\imstb_truetype.h" />
+    <ClInclude Include="Graphics\YaxlGraphics.h" />
+    <ClInclude Include="Graphics\YaxlGraphicsInternal.h" />
+    <ClInclude Include="Graphics\YaxlShader.h" />
+    <ClInclude Include="Graphics\YaxlTexture.h" />
     <ClInclude Include="Math\YaxlColor.h" />
     <ClInclude Include="Math\YaxlMath.h" />
     <ClInclude Include="Math\YaxlMatrix3x3.h" />
@@ -72,6 +79,9 @@
     <ClInclude Include="Graphics\YaxlGraphicsDevice.h" />
     <ClInclude Include="YaxlGame.h" />
     <ClInclude Include="YaxlLib.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\DefaultShader\YaxlSprite2DShader.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
