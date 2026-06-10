@@ -26,6 +26,11 @@ static constexpr unsigned int SHADER_DEFAULT_2D_SPRITE_ID{ 0xFFFFFFFF - 1 };
 static constexpr unsigned int TEXTURE_EMPTY_ID{ 0xFFFFFFFF };
 
 namespace {
+	// 論理解像度の幅
+	float logical_window_width_ = 1920.0f;
+	// 論理解像度の高さ
+	float logical_window_height_ = 1080.0f;
+
 	// シェーダーマップ
 	std::unordered_map<unsigned int, Shader*> shaders_map_;
 	// シェーダースタック
@@ -44,6 +49,19 @@ namespace {
 }
 
 #pragma region [Internal]
+
+void Yaxl::Internal::SetLogicalWindowSize(float width, float height) {
+	logical_window_width_ = width;
+	logical_window_height_ = height;
+}
+
+float Yaxl::Internal::GetLogicalWindowWidth() {
+	return logical_window_width_;
+}
+
+float Yaxl::Internal::GetLogicalWindowHeight() {
+	return logical_window_height_;
+}
 
 void Yaxl::Internal::InitGraphics() {
 	// デフォルトシェーダーの読み込み
@@ -339,11 +357,8 @@ void Yaxl::DrawSprite2D(unsigned int id, Vector2* position, Vector4* rect, Vecto
 	Vector2 tex_size{ sprite_w / tw, sprite_h / th };
 	// 画像の回転角度
 	float angle_rad = angle * (3.14159265f / 180.0f);
-
-	// 画像サイズの取得
-	int viewport[4];
-	glGetIntegerv(GL_VIEWPORT, viewport);
-	Vector2 screen_size{ (float)viewport[2], (float)viewport[3] };
+	// 画面サイズの取得
+	Vector2 screen_size{ logical_window_width_, logical_window_height_ };
 
 	// パラメータを設定
 	SetShaderParamVector2("u_ScreenSize", &screen_size);
