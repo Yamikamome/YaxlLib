@@ -127,46 +127,46 @@ void Color::RGBToHSV(const Color& rgbColor, float& H, float& S, float& V) {
 	H /= 360.0f;
 }
 
-Color Clear() {
+Color Color::Clear() {
     return Color(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
-Color Black() {
+Color Color::Black() {
 	return Color(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
-Color White() {
+Color Color::White() {
 	return Color(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
-Color Red() {
+Color Color::Red() {
 	return Color(1.0f, 0.0f, 0.0f, 1.0f);
 }
 
-Color Blue() {
+Color Color::Blue() {
 	return Color(0.0f, 0.0f, 1.0f, 1.0f);
 }
 
-Color Green() {
+Color Color::Green() {
 	return Color(0.0f, 1.0f, 0.0f, 1.0f);
 }
 
-Color Yellow() {
+Color Color::Yellow() {
 	return Color(1.0f, 0.92f, 0.016f, 1.0f);
 }
 
-Color Cyan() {
+Color Color::Cyan() {
 	return Color(0.0f, 1.0f, 1.0f, 1.0f);
 }
 
-Color Gray() {
+Color Color::Gray() {
 	return Color(0.5f, 0.5f, 0.5f, 1.0f);
 }
 
-Color Grey() {
+Color Color::Grey() {
 	return Color(0.5f, 0.5f, 0.5f, 1.0f);
 }
 
-Color Magenta() {
+Color Color::Magenta() {
 	return Color(1.0f, 0.0f, 1.0f, 1.0f);
 }
