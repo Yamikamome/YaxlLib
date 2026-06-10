@@ -16,8 +16,14 @@ namespace Yaxl {
     /// <summary>
     /// 現在設定されているFPSの制限値を取得
     /// </summary>
-    /// <returns></returns>
+    /// <returns>FPSの制限値</returns>
     int GetTargetFps();
+
+	/// <summary>
+	/// 現在のFPSを取得
+	/// </summary>
+	/// <returns>現在のFPS</returns>
+	float GetCurrentFps();
 
     /// <summary>
     /// 1秒間にTickを実行する目標回数を取得

@@ -14,6 +14,12 @@ namespace Yaxl::Internal {
     /// <param name="delta_time">経過時間（秒）</param>
     void SetDeltaTime(float delta_time);
 
+	/// <summary>
+	/// 現在のFPSを設定
+	/// </summary>
+	/// <param name="fps">= 現在のFPS</param>
+	void SetCurrentFps(float fps);
+
     /// <summary>
     /// 1秒間にTickを実行する目標回数を設定
     /// </summary>

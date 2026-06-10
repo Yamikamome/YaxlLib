@@ -3,6 +3,8 @@
 
 // FPS制限値
 static int target_fps_ = 0;
+// 現在のFPS
+static float current_fps_ = 0.0f;
 // 経過時間（秒）
 static float delta_time_ = 0.0f;
 // 1秒間にTickを実行する目標回数
@@ -16,6 +18,10 @@ void Yaxl::SetTargetFps(int fps) {
 
 int Yaxl::GetTargetFps() {
 	return target_fps_;
+}
+
+float Yaxl::GetCurrentFps() {
+	return current_fps_;
 }
 
 int Yaxl::GetTickRate() {
@@ -32,6 +38,10 @@ unsigned long long Yaxl::GetTickCount() {
 
 void Yaxl::Internal::SetDeltaTime(float delta_time) {
 	delta_time_ = delta_time;
+}
+
+void Yaxl::Internal::SetCurrentFps(float fps) {
+	current_fps_ = fps;
 }
 
 void Yaxl::Internal::SetTickRate(int tick_rate) {
