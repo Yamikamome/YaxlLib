@@ -1,8 +1,6 @@
 #include "YaxlTime.h"
 #include "YaxlTimeInternal.h"
 
-using namespace Yaxl;
-
 // FPS制限値
 static int target_fps_ = 0;
 // 経過時間（秒）

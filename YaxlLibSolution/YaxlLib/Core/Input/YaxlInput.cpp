@@ -1,4 +1,4 @@
-﻿#include "YaxlInput.h"
+#include "YaxlInput.h"
 #include "Graphics/YaxlGraphicsDevice.h"
 #include <GLFW/glfw3.h>
 
@@ -43,7 +43,7 @@ static const int GLFW_KEY_MAP[static_cast<int>(KeyCode::MAX)] = {
         GLFW_KEY_F7, GLFW_KEY_F8, GLFW_KEY_F9, GLFW_KEY_F10, GLFW_KEY_F11, GLFW_KEY_F12
 };
 
-void Yaxl::Input::Update(GraphicsDevice* graphics_device) {
+void Input::Update(GraphicsDevice* graphics_device) {
     if (graphics_device == nullptr) {
         return;
     }
@@ -141,7 +141,7 @@ void Yaxl::Input::Update(GraphicsDevice* graphics_device) {
 
 }
 
-bool Yaxl::Input::IsMouseButtonDown(MouseButton button) {
+bool Input::IsMouseButtonDown(MouseButton button) {
     int index = static_cast<int>(button);
     if (current_mouse_buttons_[index] == true) {
         if (prev_mouse_buttons_[index] == false) {
@@ -151,12 +151,12 @@ bool Yaxl::Input::IsMouseButtonDown(MouseButton button) {
     return false;
 }
 
-bool Yaxl::Input::IsMouseButton(MouseButton button) {
+bool Input::IsMouseButton(MouseButton button) {
     int index = static_cast<int>(button);
     return current_mouse_buttons_[index];
 }
 
-bool Yaxl::Input::IsMouseButtonUp(MouseButton button) {
+bool Input::IsMouseButtonUp(MouseButton button) {
     int index = static_cast<int>(button);
     if (current_mouse_buttons_[index] == false) {
         if (prev_mouse_buttons_[index] == true) {
@@ -166,23 +166,23 @@ bool Yaxl::Input::IsMouseButtonUp(MouseButton button) {
     return false;
 }
 
-float Yaxl::Input::GetMouseX() {
+float Input::GetMouseX() {
     return mouse_x_;
 }
 
-float Yaxl::Input::GetMouseY() {
+float Input::GetMouseY() {
     return mouse_y_;
 }
 
-float Yaxl::Input::GetMouseDeltaX() {
+float Input::GetMouseDeltaX() {
     return delta_mouse_x_;
 }
 
-float Yaxl::Input::GetMouseDeltaY() {
+float Input::GetMouseDeltaY() {
     return delta_mouse_y_;
 }
 
-bool Yaxl::Input::IsKeyDown(KeyCode key) {
+bool Input::IsKeyDown(KeyCode key) {
     int index = static_cast<int>(key);
     if (current_keys_[index] == true) {
         if (prev_keys_[index] == false) {
@@ -192,12 +192,12 @@ bool Yaxl::Input::IsKeyDown(KeyCode key) {
     return false;
 }
 
-bool Yaxl::Input::IsKey(KeyCode key) {
+bool Input::IsKey(KeyCode key) {
     int index = static_cast<int>(key);
     return current_keys_[index];
 }
 
-bool Yaxl::Input::IsKeyUp(KeyCode key) {
+bool Input::IsKeyUp(KeyCode key) {
     int index = static_cast<int>(key);
     if (current_keys_[index] == false) {
         if (prev_keys_[index] == true) {
@@ -207,11 +207,11 @@ bool Yaxl::Input::IsKeyUp(KeyCode key) {
     return false;
 }
 
-bool Yaxl::Input::IsPadConnected() {
+bool Input::IsPadConnected() {
     return is_pad_connected_;
 }
 
-bool Yaxl::Input::IsPadButtonDown(PadButton button) {
+bool Input::IsPadButtonDown(PadButton button) {
     int index = static_cast<int>(button);
     if (current_pad_buttons_[index] == true) {
         if (prev_pad_buttons_[index] == false) {
@@ -221,12 +221,12 @@ bool Yaxl::Input::IsPadButtonDown(PadButton button) {
     return false;
 }
 
-bool Yaxl::Input::IsPadButton(PadButton button) {
+bool Input::IsPadButton(PadButton button) {
     int index = static_cast<int>(button);
     return current_pad_buttons_[index];
 }
 
-bool Yaxl::Input::IsPadButtonUp(PadButton button) {
+bool Input::IsPadButtonUp(PadButton button) {
     int index = static_cast<int>(button);
     if (current_pad_buttons_[index] == false) {
         if (prev_pad_buttons_[index] == true) {
@@ -236,26 +236,26 @@ bool Yaxl::Input::IsPadButtonUp(PadButton button) {
     return false;
 }
 
-float Yaxl::Input::GetLeftStickX() {
+float Input::GetLeftStickX() {
     return left_stick_x_;
 }
 
-float Yaxl::Input::GetLeftStickY() {
+float Input::GetLeftStickY() {
     return left_stick_y_;
 }
 
-float Yaxl::Input::GetRightStickX() {
+float Input::GetRightStickX() {
     return right_stick_x_;
 }
 
-float Yaxl::Input::GetRightStickY() {
+float Input::GetRightStickY() {
     return right_stick_y_;
 }
 
-float Yaxl::Input::GetLeftTrigger() {
+float Input::GetLeftTrigger() {
     return left_trigger_;
 }
 
-float Yaxl::Input::GetRightTrigger() {
+float Input::GetRightTrigger() {
     return right_trigger_;
 }

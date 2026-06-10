@@ -3,20 +3,22 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-Yaxl::GraphicsDevice::GraphicsDevice() {
+using namespace Yaxl;
+
+GraphicsDevice::GraphicsDevice() {
     window_handle_ = nullptr;
     window_width_ = 0;
     window_height_ = 0;
     is_initialized_ = false;
 }
 
-Yaxl::GraphicsDevice::~GraphicsDevice() {
+GraphicsDevice::~GraphicsDevice() {
     if (is_initialized_ == true) {
         Clear();
     }
 }
 
-bool Yaxl::GraphicsDevice::Init(int width, int height, const char* title) {
+bool GraphicsDevice::Init(int width, int height, const char* title) {
     if (is_initialized_ == true) {
         return false;
     }
@@ -57,7 +59,7 @@ bool Yaxl::GraphicsDevice::Init(int width, int height, const char* title) {
     return true;
 }
 
-void Yaxl::GraphicsDevice::Clear() {
+void GraphicsDevice::Clear() {
     if (is_initialized_ == false) {
         return;
     }
@@ -72,7 +74,7 @@ void Yaxl::GraphicsDevice::Clear() {
     is_initialized_ = false;
 }
 
-void Yaxl::GraphicsDevice::Update() {
+void GraphicsDevice::Update() {
 	if (is_initialized_ == false) {
 		return;
 	}
@@ -85,7 +87,7 @@ void Yaxl::GraphicsDevice::Update() {
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Yaxl::GraphicsDevice::SwapBuffers() {
+void GraphicsDevice::SwapBuffers() {
     if (is_initialized_ == false) {
         return;
     }
@@ -94,7 +96,7 @@ void Yaxl::GraphicsDevice::SwapBuffers() {
     glfwSwapBuffers(window_handle_);
 }
 
-bool Yaxl::GraphicsDevice::IsWindowClosed() const {
+bool GraphicsDevice::IsWindowClosed() const {
     if (window_handle_ == nullptr) {
         return true;
     }
@@ -107,6 +109,6 @@ bool Yaxl::GraphicsDevice::IsWindowClosed() const {
     }
 }
 
-GLFWwindow* Yaxl::GraphicsDevice::GetWindowHandle() const {
+GLFWwindow* GraphicsDevice::GetWindowHandle() const {
     return window_handle_;
 }
