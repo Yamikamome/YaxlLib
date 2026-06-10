@@ -8,16 +8,16 @@
 using namespace Yaxl;
 
 Matrix3x3::Matrix3x3() {
-	std::memset(m_, 0, sizeof(float) * 9);
-	m_[0] = 1.0f;
-	m_[4] = 1.0f;
-	m_[8] = 1.0f;
+	std::memset(m, 0, sizeof(float) * 9);
+	m[0] = 1.0f;
+	m[4] = 1.0f;
+	m[8] = 1.0f;
 }
 
 float Matrix3x3::Determinant() const {
-	float det = m_[0] * (m_[4] * m_[8] - m_[7] * m_[5])
-		- m_[3] * (m_[1] * m_[8] - m_[7] * m_[2])
-		+ m_[6] * (m_[1] * m_[5] - m_[4] * m_[2]);
+	float det = m[0] * (m[4] * m[8] - m[7] * m[5])
+		- m[3] * (m[1] * m[8] - m[7] * m[2])
+		+ m[6] * (m[1] * m[5] - m[4] * m[2]);
 	return det;
 }
 
@@ -31,74 +31,74 @@ Matrix3x3 Matrix3x3::Inverse() const {
 	Matrix3x3 res;
 
 	// 余因子行列の転置を計算して行列式で割る
-	res.m_[0] = (m_[4] * m_[8] - m_[5] * m_[7]) * invDet;
-	res.m_[1] = -(m_[1] * m_[8] - m_[2] * m_[7]) * invDet;
-	res.m_[2] = (m_[1] * m_[5] - m_[2] * m_[4]) * invDet;
-	res.m_[3] = -(m_[3] * m_[8] - m_[5] * m_[6]) * invDet;
-	res.m_[4] = (m_[0] * m_[8] - m_[2] * m_[6]) * invDet;
-	res.m_[5] = -(m_[0] * m_[5] - m_[2] * m_[3]) * invDet;
-	res.m_[6] = (m_[3] * m_[7] - m_[4] * m_[6]) * invDet;
-	res.m_[7] = -(m_[0] * m_[7] - m_[1] * m_[6]) * invDet;
-	res.m_[8] = (m_[0] * m_[4] - m_[1] * m_[3]) * invDet;
+	res.m[0] = (m[4] * m[8] - m[5] * m[7]) * invDet;
+	res.m[1] = -(m[1] * m[8] - m[2] * m[7]) * invDet;
+	res.m[2] = (m[1] * m[5] - m[2] * m[4]) * invDet;
+	res.m[3] = -(m[3] * m[8] - m[5] * m[6]) * invDet;
+	res.m[4] = (m[0] * m[8] - m[2] * m[6]) * invDet;
+	res.m[5] = -(m[0] * m[5] - m[2] * m[3]) * invDet;
+	res.m[6] = (m[3] * m[7] - m[4] * m[6]) * invDet;
+	res.m[7] = -(m[0] * m[7] - m[1] * m[6]) * invDet;
+	res.m[8] = (m[0] * m[4] - m[1] * m[3]) * invDet;
 
 	return res;
 }
 
 Matrix3x3 Matrix3x3::Transpose() const {
 	Matrix3x3 res;
-	res.m_[0] = m_[0];
-	res.m_[1] = m_[3];
-	res.m_[2] = m_[6];
-	res.m_[3] = m_[1];
-	res.m_[4] = m_[4];
-	res.m_[5] = m_[7];
-	res.m_[6] = m_[2];
-	res.m_[7] = m_[5];
-	res.m_[8] = m_[8];
+	res.m[0] = m[0];
+	res.m[1] = m[3];
+	res.m[2] = m[6];
+	res.m[3] = m[1];
+	res.m[4] = m[4];
+	res.m[5] = m[7];
+	res.m[6] = m[2];
+	res.m[7] = m[5];
+	res.m[8] = m[8];
 	return res;
 }
 
 Vector3 Matrix3x3::GetColumn(int index) const {
 	int i = index * 3;
-	return Vector3(m_[i], m_[i + 1], m_[i + 2]);
+	return Vector3(m[i], m[i + 1], m[i + 2]);
 }
 
 Vector3 Matrix3x3::GetRow(int index) const {
-	return Vector3(m_[index], m_[index + 3], m_[index + 6]);
+	return Vector3(m[index], m[index + 3], m[index + 6]);
 }
 
 void Matrix3x3::SetColumn(int index, const Vector3& column) {
 	int i = index * 3;
-	m_[i] = column.x;
-	m_[i + 1] = column.y;
-	m_[i + 2] = column.z;
+	m[i] = column.x;
+	m[i + 1] = column.y;
+	m[i + 2] = column.z;
 }
 
 void Matrix3x3::SetRow(int index, const Vector3& row) {
-	m_[index] = row.x;
-	m_[index + 3] = row.y;
-	m_[index + 6] = row.z;
+	m[index] = row.x;
+	m[index + 3] = row.y;
+	m[index + 6] = row.z;
 }
 
 Vector3 Matrix3x3::MultiplyVector(const Vector3& vector) const {
 	Vector3 res;
-	res.x = m_[0] * vector.x + m_[3] * vector.y + m_[6] * vector.z;
-	res.y = m_[1] * vector.x + m_[4] * vector.y + m_[7] * vector.z;
-	res.z = m_[2] * vector.x + m_[5] * vector.y + m_[8] * vector.z;
+	res.x = m[0] * vector.x + m[3] * vector.y + m[6] * vector.z;
+	res.y = m[1] * vector.x + m[4] * vector.y + m[7] * vector.z;
+	res.z = m[2] * vector.x + m[5] * vector.y + m[8] * vector.z;
 	return res;
 }
 
 Vector2 Matrix3x3::MultiplyPoint2D(const Vector2& point) const {
 	Vector2 res;
-	res.x = m_[0] * point.x + m_[3] * point.y + m_[6] * 1.0f;
-	res.y = m_[1] * point.x + m_[4] * point.y + m_[7] * 1.0f;
+	res.x = m[0] * point.x + m[3] * point.y + m[6] * 1.0f;
+	res.y = m[1] * point.x + m[4] * point.y + m[7] * 1.0f;
 	return res;
 }
 
 Vector2 Matrix3x3::MultiplyVector2D(const Vector2& vector) const {
 	Vector2 res;
-	res.x = m_[0] * vector.x + m_[3] * vector.y;
-	res.y = m_[1] * vector.x + m_[4] * vector.y;
+	res.x = m[0] * vector.x + m[3] * vector.y;
+	res.y = m[1] * vector.x + m[4] * vector.y;
 	return res;
 }
 
@@ -108,7 +108,7 @@ Matrix3x3 Matrix3x3::Identity() {
 
 Matrix3x3 Matrix3x3::Zero() {
 	Matrix3x3 res;
-	std::memset(res.m_, 0, sizeof(float) * 9);
+	std::memset(res.m, 0, sizeof(float) * 9);
 	return res;
 }
 
@@ -118,17 +118,17 @@ Matrix3x3 Matrix3x3::TRS(const Vector2& pos, float rotation_degrees, const Vecto
 	float s = Math::Sin(rad);
 	float c = Math::Cos(rad);
 
-	res.m_[0] = c * scale.x;
-	res.m_[1] = s * scale.x;
-	res.m_[2] = 0.0f;
+	res.m[0] = c * scale.x;
+	res.m[1] = s * scale.x;
+	res.m[2] = 0.0f;
 
-	res.m_[3] = -s * scale.y;
-	res.m_[4] = c * scale.y;
-	res.m_[5] = 0.0f;
+	res.m[3] = -s * scale.y;
+	res.m[4] = c * scale.y;
+	res.m[5] = 0.0f;
 
-	res.m_[6] = pos.x;
-	res.m_[7] = pos.y;
-	res.m_[8] = 1.0f;
+	res.m[6] = pos.x;
+	res.m[7] = pos.y;
+	res.m[8] = 1.0f;
 
 	return res;
 }
@@ -137,10 +137,10 @@ Matrix3x3 Matrix3x3::operator*(const Matrix3x3& rhs) const {
 	Matrix3x3 res;
 	for (int c = 0; c < 3; ++c) {
 		for (int r = 0; r < 3; ++r) {
-			res.m_[c * 3 + r] =
-				m_[0 * 3 + r] * rhs.m_[c * 3 + 0] +
-				m_[1 * 3 + r] * rhs.m_[c * 3 + 1] +
-				m_[2 * 3 + r] * rhs.m_[c * 3 + 2];
+			res.m[c * 3 + r] =
+				m[0 * 3 + r] * rhs.m[c * 3 + 0] +
+				m[1 * 3 + r] * rhs.m[c * 3 + 1] +
+				m[2 * 3 + r] * rhs.m[c * 3 + 2];
 		}
 	}
 	return res;
@@ -153,7 +153,7 @@ Matrix3x3& Matrix3x3::operator*=(const Matrix3x3& rhs) {
 
 bool Matrix3x3::operator==(const Matrix3x3& rhs) const {
 	for (int i = 0; i < 9; ++i) {
-		if (Math::Approximately(m_[i], rhs.m_[i]) == false) {
+		if (Math::Approximately(m[i], rhs.m[i]) == false) {
 			return false;
 		}
 	}

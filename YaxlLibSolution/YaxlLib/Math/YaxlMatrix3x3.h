@@ -16,10 +16,10 @@ class Vector3;
 class Matrix3x3 {
 public:
 	// 3*3行列成分
-	// m_[0]	m_[3]	m_[6]
-	// m_[1]	m_[4]	m_[7]
-	// m_[2]	m_[5]	m_[8]
-	float m_[9];
+	// m[0]		m[3]	m[6]
+	// m[1]		m[4]	m[7]
+	// m[2]		m[5]	m[8]
+	float m[9];
 
 public:
 	// コンストラクタ
