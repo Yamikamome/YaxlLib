@@ -3,6 +3,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "YaxlGraphicsInternal.h"
+
 using namespace Yaxl;
 
 GraphicsDevice::GraphicsDevice() {
@@ -43,6 +45,14 @@ bool GraphicsDevice::Init(int width, int height, const char* title) {
 
     // 描画対象として設定
     glfwMakeContextCurrent(window_handle_);
+
+	// コールバック内でこのクラスのメンバ変数にアクセスできるようにポインタを登録
+	glfwSetWindowUserPointer(window_handle_, this);
+	// リサイズ時のコールバックを登録
+	glfwSetFramebufferSizeCallback(window_handle_, FramebufferSizeCallback);
+
+	// 初期論理解像度を初期化時のウィンドウサイズに合わせる
+	Internal::SetLogicalWindowSize(static_cast<float>(width), static_cast<float>(height));
 
     // GLADの初期化を行い、失敗したら終了
     if (gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) == 0) {
@@ -111,4 +121,76 @@ bool GraphicsDevice::IsWindowClosed() const {
 
 GLFWwindow* GraphicsDevice::GetWindowHandle() const {
     return window_handle_;
+}
+
+void Yaxl::GraphicsDevice::SetFullScreen(bool is_fullscreen) {
+	if (is_fullscreen_ == is_fullscreen) return;
+
+	if (is_fullscreen) {
+		// フルスクリーン化する前の状態を保存
+		glfwGetWindowPos(window_handle_, &saved_window_pos_x_, &saved_window_pos_y_);
+		glfwGetWindowSize(window_handle_, &saved_window_width_, &saved_window_height_);
+
+		// メインモニターを取得
+		GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+		const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
+		// フルスクリーン化
+		glfwSetWindowMonitor(window_handle_, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+	}
+	else {
+		// ウィンドウモードに復元
+		glfwSetWindowMonitor(window_handle_, nullptr, saved_window_pos_x_, saved_window_pos_y_, saved_window_width_, saved_window_height_, 0);
+	}
+
+	is_fullscreen_ = is_fullscreen;
+}
+
+void Yaxl::GraphicsDevice::SetBorderless(bool is_borderless) {
+	if (is_borderless_ == is_borderless) return;
+
+	// フルスクリーン中はボーダーレス設定を無視する
+	if (!is_fullscreen_) {
+		// GLFW_DECORATEDをfalseにすると枠なし
+		glfwSetWindowAttrib(window_handle_, GLFW_DECORATED, is_borderless ? GLFW_FALSE : GLFW_TRUE);
+	}
+
+	is_borderless_ = is_borderless;
+}
+
+void Yaxl::GraphicsDevice::ToggleFullScreen() {
+	SetFullScreen(!is_fullscreen_);
+}
+
+void Yaxl::GraphicsDevice::ToggleBorderless() {
+	SetBorderless(!is_borderless_);
+}
+
+void Yaxl::GraphicsDevice::FramebufferSizeCallback(GLFWwindow* window, int width, int height) {
+	GraphicsDevice* device = static_cast<GraphicsDevice*>(glfwGetWindowUserPointer(window));
+	if (device == nullptr || width == 0 || height == 0) return;
+
+	// 目的のアスペクト比
+	const float target_aspect = Internal::GetLogicalWindowWidth() / Internal::GetLogicalWindowHeight();
+	// 現在のウィンドウのアスペクト比
+	const float window_aspect = static_cast<float>(width) / static_cast<float>(height);
+
+	int view_width = width;
+	int view_height = height;
+	int view_x = 0;
+	int view_y = 0;
+
+	if (window_aspect > target_aspect) {
+		// ウィンドウが横に長すぎる場合は左右にピラーボックスを生成する
+		view_width = static_cast<int>(height * target_aspect);
+		view_x = (width - view_width) / 2;
+	}
+	else {
+		// ウィンドウが縦に長すぎる場合は上下にレターボックスを生成する
+		view_height = static_cast<int>(width / target_aspect);
+		view_y = (height - view_height) / 2;
+	}
+
+	// 描画領域を再設定）
+	glViewport(view_x, view_y, view_width, view_height);
 }
