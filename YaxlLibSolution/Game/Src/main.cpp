@@ -1,6 +1,5 @@
 #include <YaxlGame.h>
 #include <imgui/imgui.h>
-#include <stdio.h>
 
 class MyGame : public Yaxl::Game {
 public:
@@ -17,11 +16,8 @@ protected:
 
 	void update() override {
 		ImGui::Begin("YaxlLibDebugWindow");
-		ImGui::Text("hello!");
+		ImGui::Text("FPS: %.1f", Yaxl::GetCurrentFps());
 		ImGui::End();
-
-
-		printf("hi\n");
 	}
 
 	void draw() const override {
