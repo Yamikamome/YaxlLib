@@ -4,9 +4,10 @@
 #include <thread>
 #include <chrono>
 
+#include "Graphics/YaxlGraphicsDevice.h"
+#include "Graphics/YaxlGraphicsInternal.h"
 #include "Core/Time/YaxlTimeInternal.h"
 #include "Graphics/DebugGui/YaxlDebugGui.h"
-#include "Graphics/YaxlGraphicsInternal.h"
 
 using namespace Yaxl;
 using namespace Internal;
