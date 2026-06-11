@@ -206,6 +206,17 @@ namespace Yaxl {
 	/// <param name="angle">= 角度</param>
 	void DrawSprite2D(unsigned int id, Vector2* position, Rect* rect, Vector2* scale, Vector2* center, Color* color, float angle = 0.0f);
 
+	/// <summary>
+	/// 3Dスプライトを描画
+	/// </summary>
+	/// <param name="id">= テクスチャID</param>
+	/// <param name="position">= 位置</param>
+	/// <param name="rect">= 描画範囲</param>
+	/// <param name="center">= 中心</param>
+	/// <param name="color">= カラー</param>
+	/// <param name="angle">= 角度</param>
+	void DrawSprite3D(unsigned int id, Vector3* position, Rect* rect, Vector2* scale, Vector2* center, Color* color, float angle = 0.0f);
+
 #pragma endregion
 
 }	// namespace Yaxl end

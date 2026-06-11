@@ -18,11 +18,13 @@
 #include "Math/YaxlVector4.h"
 
 #include "DefaultShader/YaxlSprite2DShader.h"
+#include "DefaultShader/YaxlSprite3DShader.h"
 
 using namespace Yaxl;
 
 static constexpr unsigned int SHADER_EMPTY_ID{ 0xFFFFFFFF };
 static constexpr unsigned int SHADER_DEFAULT_2D_SPRITE_ID{ 0xFFFFFFFF - 1 };
+static constexpr unsigned int SHADER_DEFAULT_3D_SPRITE_ID{ 0xFFFFFFFF - 2 };
 
 static constexpr unsigned int TEXTURE_EMPTY_ID{ 0xFFFFFFFF };
 
@@ -44,6 +46,8 @@ namespace {
 
 	// デフォルトスプライト2Dシェーダー
 	unsigned int default_sprite_2d_shader_id_ = SHADER_EMPTY_ID;
+	// デフォルトスプライト3Dシェーダー
+	unsigned int default_sprite_3d_shader_id_ = SHADER_EMPTY_ID;
 
 	// テクスチャマップ
 	std::unordered_map<unsigned int, Texture*> textures_map_;
@@ -74,20 +78,23 @@ void Yaxl::Internal::InitGraphics() {
 	if (LoadShaderString(SHADER_DEFAULT_2D_SPRITE_ID, YAXL_DEFAULT_SPRITE_2D_SHADER_VERT, YAXL_DEFAULT_SPRITE_2D_SHADER_FRAG)) {
 		default_sprite_2d_shader_id_ = SHADER_DEFAULT_2D_SPRITE_ID;
 	}
+	if (LoadShaderString(SHADER_DEFAULT_3D_SPRITE_ID, YAXL_DEFAULT_SPRITE_3D_SHADER_VERT, YAXL_DEFAULT_SPRITE_3D_SHADER_FRAG)) {
+		default_sprite_3d_shader_id_ = SHADER_DEFAULT_3D_SPRITE_ID;
+	}
 
 	// スプライトの生成
 	{
 		// 四角形ポリゴンデータの頂点データの作成（三角形二枚）
 		float vertices[] = {
-		0.0f, 1.0f, // 左下
-		1.0f, 0.0f, // 右上
-		0.0f, 0.0f, // 左上
+			// Pos(X,Y)   // Tex(U,V)
+			0.0f, 1.0f,   0.0f, 1.0f, // 左下
+			1.0f, 0.0f,   1.0f, 0.0f, // 右上
+			0.0f, 0.0f,   0.0f, 0.0f, // 左上
 
-		0.0f, 1.0f, // 左下
-		1.0f, 1.0f, // 右下
-		1.0f, 0.0f  // 右上
+			0.0f, 1.0f,   0.0f, 1.0f, // 左下
+			1.0f, 1.0f,   1.0f, 1.0f, // 右下
+			1.0f, 0.0f,   1.0f, 0.0f  // 右上
 		};
-
 		// バッファの作成
 		glGenVertexArrays(1, &sprite_vao_);
 		glGenBuffers(1, &sprite_vbo_);
@@ -96,9 +103,14 @@ void Yaxl::Internal::InitGraphics() {
 		// データをGPUに転送
 		glBindBuffer(GL_ARRAY_BUFFER, sprite_vbo_);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-		// データ構造をシェーダーに設定
+
+		// 頂点座標構造をシェーダーに設定
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+		// UV座標構造をシェーダーに設定
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+
 		// バインド解除
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
@@ -407,7 +419,7 @@ void Yaxl::DrawSprite2D(unsigned int id, Vector2* position, Rect* rect, Vector2*
 	// 画像の切り出しサイズ
 	Vector2 tex_size{ sprite_w / tw, sprite_h / th };
 	// 画像の回転角度
-	float angle_rad = angle * (3.14159265f / 180.0f);
+	float angle_rad = angle * (Math::PI / 180.0f);
 	// 画面サイズの取得
 	Vector2 screen_size{ logical_window_width_, logical_window_height_ };
 
@@ -421,11 +433,88 @@ void Yaxl::DrawSprite2D(unsigned int id, Vector2* position, Rect* rect, Vector2*
 	SetShaderParamVector4("u_SpriteColor", color);
 	SetShaderParamVector2("u_TexturePosition", &tex_pos);
 	SetShaderParamVector2("u_TextureSize", &tex_size);
+	SetShaderParamInt("u_BaseMap", 0);
 
-	// サンプラーにテクスチャユニット0を指定
-	if (int location = GetShaderUniform("u_BaseMap"); location != -1) {
-		glUniform1i(location, 0);
+	// 描画
+	glBindVertexArray(sprite_vao_);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glBindVertexArray(0);
+
+	// 空テクスチャをバインドして解除
+	Internal::BindTexture(TEXTURE_EMPTY_ID, 0);
+
+	// デフォルトシェーダーを使用したならバインドを解除する
+	if (is_empty_shader) {
+		EndShader();
 	}
+}
+
+void Yaxl::DrawSprite3D(unsigned int id, Vector3* position, Rect* rect, Vector2* scale, Vector2* center, Color* color, float angle) {
+	// シェーダーがバインドされていなければデフォルトシェーダーをバインドする
+	bool is_empty_shader = active_shader_stack_.empty();
+	if (is_empty_shader) {
+		BeginShader(SHADER_DEFAULT_3D_SPRITE_ID);
+	}
+
+	// ステート設定
+	glEnable(GL_DEPTH_TEST);	// 3D空間なので深度を有効にする
+	glDisable(GL_CULL_FACE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	// テクスチャをバインド
+	Internal::BindTexture(id, 0);
+
+	// バインド中のテクスチャ
+	Texture* texture = GetTexture(id);
+
+	// バインド中のテクスチャサイズを取得
+	float tw = 1.0f;
+	float th = 1.0f;
+	if (texture != nullptr) {
+		tw = (float)texture->GetWidth();
+		th = (float)texture->GetHeight();
+	}
+
+	float sprite_w = 1.0f;
+	float sprite_h = 1.0f;
+	Vector2 cut_start{ 0.0f, 0.0f };
+	if (rect != nullptr) {
+		// 画像の切り出しサイズを取得
+		sprite_w = Math::Abs(rect->right - rect->left);
+		sprite_h = Math::Abs(rect->bottom - rect->top);
+
+		// 画像の切り出し始点を取得
+		cut_start.x = rect->left;
+		cut_start.y = rect->top;
+	}
+	else {
+		sprite_w = tw;
+		sprite_h = th;
+	}
+
+	// 画像の切り出しサイズ
+	Vector2 sprite_size{ sprite_w, sprite_h };
+	// 画像の切り出し位置
+	Vector2 tex_pos{ cut_start.x / tw, cut_start.y / th };
+	// 画像の切り出しサイズ
+	Vector2 tex_size{ sprite_w / tw, sprite_h / th };
+	// 画像の回転角度
+	float angle_rad = angle * (Math::PI / 180.0f);
+	// 画面サイズの取得
+	Vector2 screen_size{ logical_window_width_, logical_window_height_ };
+
+	SetShaderParamVector2("u_SpriteSize", &sprite_size);
+	SetShaderParamVector2("u_SpriteCenter", center);
+	SetShaderParamVector2("u_SpriteScale", scale);
+	SetShaderParamFloat("u_SpriteAngle", angle_rad);
+	SetShaderParamVector3("u_SpritePosition", position);
+	SetShaderParamVector2("u_TexturePosition", &tex_pos);
+	SetShaderParamVector2("u_TextureSize", &tex_size);
+	SetShaderParamMatrix4x4("u_matView", &current_view_matrix_);
+	SetShaderParamMatrix4x4("u_matProjection", &current_projection_matrix_);
+	SetShaderParamVector4("u_SpriteColor", color);
+	SetShaderParamInt("u_BaseMap", 0);
 
 	// 描画
 	glBindVertexArray(sprite_vao_);
