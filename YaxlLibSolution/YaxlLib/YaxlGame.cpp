@@ -49,7 +49,7 @@ int Game::run() {
 	// 時間管理の初期化
 	double prev_time = glfwGetTime();
 	double tick_accumulator = 0.0f;
-	double fps_time_accumulator = 0.0;
+	double fps_time_accumulator = 0.0f;
 	int frame_counter = 0;
 	// 1tickあたりに必要な時間（秒）を計算する
 	const double tick_interval = 1.0f / GetTickRate();
@@ -107,10 +107,10 @@ int Game::run() {
 		// FPSの計算
 		frame_counter++;
 		fps_time_accumulator += frame_time;
-		if (fps_time_accumulator >= 1.0) {
+		if (fps_time_accumulator >= 1.0f) {
 			SetCurrentFps(static_cast<float>(frame_counter) / static_cast<float>(fps_time_accumulator));
 			frame_counter = 0;
-			fps_time_accumulator -= 1.0; // 端数は残す
+			fps_time_accumulator -= 1.0f; // 端数は残す
 		}
 
 		// tick処理を呼び出す
