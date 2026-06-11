@@ -43,6 +43,17 @@ public:
 			// カラーのa成分
 			float a;
 		};
+		// 矩形
+		struct {
+			// 矩形のleft成分
+			float left;
+			// 矩形のtop成分
+			float top;
+			// 矩形のright成分
+			float right;
+			// 矩形のbottom成分
+			float bottom;
+		};
 	};
 #pragma warning(pop)
 
