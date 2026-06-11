@@ -1,0 +1,42 @@
+YaxlLib License
+
+Copyright (c) 2026 Yamikamome
+
+Permission is granted to use this library under the following terms.
+
+1. Permitted Uses
+
+You may:
+
+* Use this library in personal, educational, non-commercial, or commercial projects.
+* Use this library for game development and application development.
+* Compile, link, and distribute software that incorporates this library.
+* Study, inspect, and reference the source code for learning purposes.
+* Modify the source code solely for the purpose of creating a Pull Request to the original repository.
+
+2. Restrictions
+
+You may not:
+
+* Modify or maintain a private, altered version of this library for continued use outside of a Pull Request workflow.
+* Redistribute this library, in whole or in part, in source code form.
+* Redistribute this library, in whole or in part, as a standalone binary, package, SDK, framework, or development tool.
+* Fork, mirror, republish, or upload this library to another repository, website, or distribution service.
+* Copy substantial portions of the source code into another library, framework, SDK, or reusable software product.
+* Remove, alter, or obscure this license or copyright notice.
+
+3. Attribution
+
+Attribution is appreciated but not required.
+
+If you use this library in a published project, you are encouraged to include a link to the original repository in your documentation, credits, website, or repository.
+
+4. Third-Party Software
+
+This project may include or depend on third-party libraries. Such components remain subject to their own licenses and copyright notices.
+
+5. Disclaimer
+
+This software is provided "as is", without warranty of any kind, express or implied.
+
+The author shall not be liable for any claim, damages, or other liability arising from the use of this software.
