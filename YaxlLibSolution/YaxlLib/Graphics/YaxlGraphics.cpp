@@ -12,6 +12,7 @@
 #include "Math/YaxlColor.h"
 #include "Math/YaxlMatrix3x3.h"
 #include "Math/YaxlMatrix4x4.h"
+#include "Math/YaxlRect.h"
 #include "Math/YaxlVector2.h"
 #include "Math/YaxlVector3.h"
 #include "Math/YaxlVector4.h"
@@ -355,7 +356,7 @@ Texture* Yaxl::GetTexture(unsigned int id) {
 	return nullptr;
 }
 
-void Yaxl::DrawSprite2D(unsigned int id, Vector2* position, Vector4* rect, Vector2* scale, Vector2* center, Color* color, float angle) {
+void Yaxl::DrawSprite2D(unsigned int id, Vector2* position, Rect* rect, Vector2* scale, Vector2* center, Color* color, float angle) {
 	// シェーダーがバインドされていなければデフォルトシェーダーをバインドする
 	bool is_empty_shader = active_shader_stack_.empty();
 	if (is_empty_shader) {
@@ -371,21 +372,38 @@ void Yaxl::DrawSprite2D(unsigned int id, Vector2* position, Vector4* rect, Vecto
 	// テクスチャをバインド
 	Internal::BindTexture(id, 0);
 
+	// バインド中のテクスチャ
+	Texture* texture = GetTexture(id);
+
 	// バインド中のテクスチャサイズを取得
 	float tw = 1.0f;
 	float th = 1.0f;
-	if (Texture* tex = GetTexture(id)) {
-		tw = (float)tex->GetWidth();
-		th = (float)tex->GetHeight();
+	if (texture != nullptr) {
+		tw = (float)texture->GetWidth();
+		th = (float)texture->GetHeight();
+	}
+
+	float sprite_w = 1.0f;
+	float sprite_h = 1.0f;
+	Vector2 cut_start{ 0.0f, 0.0f };
+	if (rect != nullptr) {
+		// 画像の切り出しサイズを取得
+		sprite_w = Math::Abs(rect->right - rect->left);
+		sprite_h = Math::Abs(rect->bottom - rect->top);
+
+		// 画像の切り出し始点を取得
+		cut_start.x = rect->left;
+		cut_start.y = rect->top;
+	}
+	else {
+		sprite_w = tw;
+		sprite_h = th;
 	}
 
 	// 画像の切り出しサイズ
-	float sprite_w = Math::Abs(rect->z - rect->x);
-	float sprite_h = Math::Abs(rect->w - rect->y);
 	Vector2 sprite_size{ sprite_w, sprite_h };
-
 	// 画像の切り出し位置
-	Vector2 tex_pos{ rect->x / tw, rect->y / th };
+	Vector2 tex_pos{ cut_start.x / tw, cut_start.y / th };
 	// 画像の切り出しサイズ
 	Vector2 tex_size{ sprite_w / tw, sprite_h / th };
 	// 画像の回転角度

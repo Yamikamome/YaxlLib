@@ -15,6 +15,7 @@ namespace Yaxl {
 	class Color;
 	class Matrix3x3;
 	class Matrix4x4;
+	class Rect;
 	class Vector2;
 	class Vector3;
 	class Vector4;
@@ -203,7 +204,7 @@ namespace Yaxl {
 	/// <param name="center">= 中心</param>
 	/// <param name="color">= カラー</param>
 	/// <param name="angle">= 角度</param>
-	void DrawSprite2D(unsigned int id, Vector2* position, Vector4* rect, Vector2* scale, Vector2* center, Color* color, float angle = 0.0f);
+	void DrawSprite2D(unsigned int id, Vector2* position, Rect* rect, Vector2* scale, Vector2* center, Color* color, float angle = 0.0f);
 
 #pragma endregion
 
