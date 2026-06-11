@@ -13,7 +13,7 @@ namespace Yaxl {
 
 class Rect : public Vector4 {
 public:
-	// デフォルトコンストラクタ（0.0, 0.0, 0.0, 0.0f）
+	// デフォルトコンストラクタ（0.0, 0.0, 0.0, 0.0）
 	Rect();
 	// コンストラクタ
 	Rect(float left, float top, float right, float bottom);
