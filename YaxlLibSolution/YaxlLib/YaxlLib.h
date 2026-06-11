@@ -31,6 +31,7 @@
 #include "Math/YaxlMatrix4x4.h"
 #include "Math/YaxlQuaternion.h"
 #include "Math/YaxlRandom.h"
+#include "Math/YaxlRect.h"
 #include "Math/YaxlVector2.h"
 #include "Math/YaxlVector3.h"
 #include "Math/YaxlVector4.h"
