@@ -18,7 +18,6 @@
 *	グラフィック
 */
 #include "Graphics/YaxlGraphics.h"
-#include "Graphics/YaxlGraphicsDevice.h"
 #include "Graphics/YaxlShader.h"
 #include "Graphics/YaxlTexture.h"
 
