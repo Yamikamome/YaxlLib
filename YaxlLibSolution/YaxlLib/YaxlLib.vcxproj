@@ -38,6 +38,7 @@
     <ClCompile Include="Math\YaxlMatrix4x4.cpp" />
     <ClCompile Include="Math\YaxlQuaternion.cpp" />
     <ClCompile Include="Math\YaxlRandom.cpp" />
+    <ClCompile Include="Math\YaxlRect.cpp" />
     <ClCompile Include="Math\YaxlVector2.cpp" />
     <ClCompile Include="Math\YaxlVector3.cpp" />
     <ClCompile Include="Math\YaxlVector4.cpp" />
@@ -71,6 +72,7 @@
     <ClInclude Include="Math\YaxlMatrix4x4.h" />
     <ClInclude Include="Math\YaxlQuaternion.h" />
     <ClInclude Include="Math\YaxlRandom.h" />
+    <ClInclude Include="Math\YaxlRect.h" />
     <ClInclude Include="Math\YaxlVector2.h" />
     <ClInclude Include="Math\YaxlVector3.h" />
     <ClInclude Include="Math\YaxlVector4.h" />
