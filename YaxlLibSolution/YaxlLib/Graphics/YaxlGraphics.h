@@ -19,6 +19,40 @@ namespace Yaxl {
 	class Vector3;
 	class Vector4;
 
+#pragma region [Screen]
+
+	/// <summary>
+	/// ビュー行列を設定
+	/// </summary>
+	/// <param name="view_matrix">ビュー行列</param>
+	void SetViewMatrix(const Matrix4x4* view_matrix);
+	
+	/// <summary>
+	/// プロジェクション行列を設定
+	/// </summary>
+	/// <param name="proj_matrix">プロジェクション行列</param>
+	void SetProjectionMatrix(const Matrix4x4* proj_matrix);
+
+	/// <summary>
+	/// 現在のビュー行列を取得
+	/// </summary>
+	/// <returns>ビュー行列</returns>
+	Matrix4x4 GetViewMatrix();
+
+	/// <summary>
+	/// 現在のプロジェクション行列を取得
+	/// </summary>
+	/// <returns>プロジェクション行列</returns>
+	Matrix4x4 GetProjectionMatrix();
+
+	/// <summary>
+	/// アスペクト比を取得
+	/// </summary>
+	/// <returns>比率</returns>
+	float GetAspect();
+
+#pragma endregion
+
 #pragma region [Shader]
 
 	/// <summary>

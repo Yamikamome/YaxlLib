@@ -31,6 +31,11 @@ namespace {
 	// 論理解像度の高さ
 	float logical_window_height_ = 1080.0f;
 
+	// ビュー行列
+	Matrix4x4 current_view_matrix_ = Matrix4x4::Identity();
+	// プロジェクション行列
+	Matrix4x4 current_projection_matrix_ = Matrix4x4::Identity();
+
 	// シェーダーマップ
 	std::unordered_map<unsigned int, Shader*> shaders_map_;
 	// シェーダースタック
@@ -150,6 +155,34 @@ void Yaxl::Internal::BindTexture(unsigned int id, unsigned int slot) {
 		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
+}
+
+#pragma endregion
+
+#pragma region [Screen]
+
+void Yaxl::SetViewMatrix(const Matrix4x4* view_matrix) {
+	if (view_matrix != nullptr) {
+		current_view_matrix_ = *view_matrix;
+	}
+}
+
+void Yaxl::SetProjectionMatrix(const Matrix4x4* proj_matrix) {
+	if (proj_matrix != nullptr) {
+		current_projection_matrix_ = *proj_matrix;
+	}
+}
+
+Matrix4x4 Yaxl::GetViewMatrix() {
+	return current_view_matrix_;
+}
+
+Matrix4x4 Yaxl::GetProjectionMatrix() {
+	return current_projection_matrix_;
+}
+
+float Yaxl::GetAspect() {
+	return logical_window_width_ / logical_window_height_;
 }
 
 #pragma endregion
