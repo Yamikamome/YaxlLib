@@ -127,6 +127,101 @@ Vector3 Matrix4x4::MultiplyVector(const Vector3& vector) const {
 	return res;
 }
 
+void Yaxl::Matrix4x4::SetPosition(const Vector3& value) {
+	m[12] = value.x;
+	m[13] = value.y;
+	m[14] = value.z;
+}
+
+Vector3 Yaxl::Matrix4x4::GetPosition() const {
+	return Vector3(m[12], m[13], m[14]);
+}
+
+void Yaxl::Matrix4x4::SetRotation(const Quaternion& value) {
+	SetTRS(GetPosition(), value, GetLossyScale());
+}
+
+Quaternion Yaxl::Matrix4x4::GetRotation() const {
+	const Vector3 scale = GetLossyScale();
+
+	// スケール0対策
+	if (Math::Approximately(scale.x, 0.0f) || Math::Approximately(scale.y, 0.0f) || Math::Approximately(scale.z, 0.0f)) {
+		return Quaternion::Identity();
+	}
+
+	float r00 = m[0] / scale.x;
+	float r01 = m[4] / scale.y;
+	float r02 = m[8] / scale.z;
+
+	float r10 = m[1] / scale.x;
+	float r11 = m[5] / scale.y;
+	float r12 = m[9] / scale.z;
+
+	float r20 = m[2] / scale.x;
+	float r21 = m[6] / scale.y;
+	float r22 = m[10] / scale.z;
+
+	float trace = r00 + r11 + r22;
+
+	Quaternion q;
+
+	if (trace > 0.0f) {
+		float s = Math::Sqrt(trace + 1.0f) * 2.0f;
+
+		q.w = 0.25f * s;
+		q.x = (r21 - r12) / s;
+		q.y = (r02 - r20) / s;
+		q.z = (r10 - r01) / s;
+	}
+	else if (r00 > r11 && r00 > r22) {
+		float s = Math::Sqrt(1.0f + r00 - r11 - r22) * 2.0f;
+
+		q.w = (r21 - r12) / s;
+		q.x = 0.25f * s;
+		q.y = (r01 + r10) / s;
+		q.z = (r02 + r20) / s;
+	}
+	else if (r11 > r22) {
+		float s = Math::Sqrt(1.0f + r11 - r00 - r22) * 2.0f;
+
+		q.w = (r02 - r20) / s;
+		q.x = (r01 + r10) / s;
+		q.y = 0.25f * s;
+		q.z = (r12 + r21) / s;
+	}
+	else {
+		float s = Math::Sqrt(1.0f + r22 - r00 - r11) * 2.0f;
+
+		q.w = (r10 - r01) / s;
+		q.x = (r02 + r20) / s;
+		q.y = (r12 + r21) / s;
+		q.z = 0.25f * s;
+	}
+
+	q.Normalize();
+	return q;
+}
+
+void Yaxl::Matrix4x4::SetScale(const Vector3& value) {
+	SetTRS(GetPosition(), GetRotation(), value);
+}
+
+Vector3 Yaxl::Matrix4x4::GetLossyScale() const {
+	return Vector3(
+		Vector3(m[0], m[1], m[2]).Magnitude(),
+		Vector3(m[4], m[5], m[6]).Magnitude(),
+		Vector3(m[8], m[9], m[10]).Magnitude()
+	);
+}
+
+void Yaxl::Matrix4x4::SetTRS(const Vector3& pos, const Vector3& euler, const Vector3& scale) {
+	SetTRS(pos, Quaternion::Euler(euler), scale);
+}
+
+void Yaxl::Matrix4x4::SetTRS(const Vector3& pos, const Quaternion& q, const Vector3& scale) {
+	*this = Matrix4x4::TRS(pos, q, scale);
+}
+
 Matrix4x4 Matrix4x4::Identity() {
 	return Matrix4x4();
 }
@@ -192,7 +287,7 @@ Matrix4x4 Matrix4x4::Scale(const Vector3& vector) {
 }
 
 Matrix4x4 Matrix4x4::TRS(const Vector3& pos, const Vector3& euler, const Vector3& scale) {
-	return TRS(pos, Quaternion::Euler(euler), scale);;
+	return TRS(pos, Quaternion::Euler(euler), scale);
 }
 
 Matrix4x4 Matrix4x4::TRS(const Vector3& pos, const Quaternion& q, const Vector3& scale) {

@@ -46,6 +46,20 @@ public:
 	Vector2 MultiplyPoint2D(const Vector2& point) const;
 	// 2Dの方向変換（回転・拡縮のみ）
 	Vector2 MultiplyVector2D(const Vector2& vector) const;
+	// 位置を返す
+	Vector2 GetPosition() const;
+	// 位置を設定
+	void SetPosition(const Vector2& value);
+	// 角度を返す
+	float GetRotation() const;
+	//角度を設定
+	void SetRotation(float degrees);
+	// スケールを返す
+	Vector2 GetScale() const;
+	// スケールを設定
+	void SetScale(const Vector2& value);
+	// TRSを設定
+	void SetTRS(const Vector2& pos, float degrees, const Vector2& scale);
 
 public:
 	// 恒等行列
@@ -54,7 +68,7 @@ public:
 	static Matrix3x3 Zero();
 
 public:
-	// 2D用のTRS（平行移動、回転、拡縮）行列を作成する
+	// 2D用のTRS（平行移動、回転、拡縮）行列を作成
 	static Matrix3x3 TRS(const Vector2& pos, float rotation_degrees, const Vector2& scale);
 
 public:

@@ -102,6 +102,45 @@ Vector2 Matrix3x3::MultiplyVector2D(const Vector2& vector) const {
 	return res;
 }
 
+Vector2 Yaxl::Matrix3x3::GetPosition() const {
+	return Vector2(m[6], m[7]);
+}
+
+void Yaxl::Matrix3x3::SetPosition(const Vector2& value) {
+	m[6] = value.x;
+	m[7] = value.y;
+}
+
+float Yaxl::Matrix3x3::GetRotation() const {
+	Vector2 scale = GetScale();
+
+	// スケール0対策
+	if (Math::Approximately(scale.x, 0.0f)) {
+		return 0.0f;
+	}
+
+	float cos_theta = m[0] / scale.x;
+	float sin_theta = m[1] / scale.x;
+
+	return Math::Atan2(sin_theta, cos_theta) * Math::Rad2Deg;
+}
+
+void Yaxl::Matrix3x3::SetRotation(float degrees) {
+	SetTRS(GetPosition(), degrees, GetScale());
+}
+
+Vector2 Yaxl::Matrix3x3::GetScale() const {
+	return Vector2(Vector2(m[0], m[1]).Magnitude(), Vector2(m[3], m[4]).Magnitude());
+}
+
+void Yaxl::Matrix3x3::SetScale(const Vector2& value) {
+	SetTRS(GetPosition(), GetRotation(), value);
+}
+
+void Yaxl::Matrix3x3::SetTRS(const Vector2& pos, float degrees, const Vector2& scale) {
+	*this = Matrix3x3::TRS(pos, degrees, scale);
+}
+
 Matrix3x3 Matrix3x3::Identity() {
 	return Matrix3x3();
 }
