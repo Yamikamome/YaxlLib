@@ -104,3 +104,6 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+# Output Folder
+Output/
