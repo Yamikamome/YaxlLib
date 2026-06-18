@@ -2,7 +2,7 @@
 自作ライブラリ第一弾<br>
 読み方はヤクセル（Yami * voxel） <br>
 # How2Use
-[ダウンロード]()<br>
+[ダウンロード](https://github.com/Yamikamome/YaxlLib/releases)<br>
 <br>
 VisualStudio2022を想定しています<br>
 C++ 空のプロジェクトを作成します<br>
