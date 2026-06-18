@@ -4,9 +4,10 @@
 #include <thread>
 #include <chrono>
 
+#include "Core/Audio/YaxlAudioInternal.h"
+#include "Core/Time/YaxlTimeInternal.h"
 #include "Graphics/YaxlGraphicsDevice.h"
 #include "Graphics/YaxlGraphicsInternal.h"
-#include "Core/Time/YaxlTimeInternal.h"
 #include "Graphics/DebugGui/YaxlDebugGui.h"
 
 using namespace Yaxl;
@@ -42,6 +43,8 @@ int Game::run() {
 
 	// グラフィックの初期化
 	InitGraphics();
+	// サウンドの初期化
+	InitAudio();
 
 	// ImGuiの初期化
 	GLFWwindow* window = graphics_device_->GetWindowHandle();
@@ -147,8 +150,12 @@ int Game::run() {
 
 	// ImGuiを解放
 	DebugGui::Clear();
+
 	// グラフィックを解放
 	ClearGraphics();
+	// サウンドを解放
+	ClearAudio();
+
 	// グラフィックデバイスを解放
 	ClearGraphicsDevice();
 
