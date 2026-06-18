@@ -126,6 +126,8 @@ public:
 	static int ClosestPowerOfTwo(int value);
 	// 次の2の累乗の値を返す
 	static int NextPowerOfTwo(int value);
+	// ごくわずかな浮動小数点による0除算対策
+	static float SafeDivide(float value, float divisor);
 
 private:
 	// インスタンス生成禁止

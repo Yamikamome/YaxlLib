@@ -218,3 +218,7 @@ int Math::NextPowerOfTwo(int value) {
 	value++;
 	return value;
 }
+
+float Yaxl::Math::SafeDivide(float value, float divisor) {
+	return Abs(divisor) > Epsilon ? value / divisor : value;
+}
