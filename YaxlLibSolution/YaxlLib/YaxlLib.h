@@ -11,8 +11,11 @@
 /*
 *	コア
 */
+#include "Core/Audio/YaxlAudio.h"
 #include "Core/Input/YaxlInput.h"
 #include "Core/Time/YaxlTime.h"
+#include "Core/Transform/YaxlTransform.h"
+#include "Core/Transform/YaxlTransform2D.h"
 
 /*
 *	グラフィック
