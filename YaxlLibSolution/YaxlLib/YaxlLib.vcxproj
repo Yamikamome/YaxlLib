@@ -19,8 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Audio\YaxlAudio.cpp" />
     <ClCompile Include="Core\Input\YaxlInput.cpp" />
     <ClCompile Include="Core\Time\YaxlTime.cpp" />
+    <ClCompile Include="Core\Transform\YaxlTransform.cpp" />
+    <ClCompile Include="Core\Transform\YaxlTransform2D.cpp" />
     <ClCompile Include="ExternalLibrary\GLAD\src\glad.c" />
     <ClCompile Include="ExternalLibrary\imgui\imgui.cpp" />
     <ClCompile Include="ExternalLibrary\imgui\imgui_draw.cpp" />
@@ -46,9 +49,13 @@
     <ClCompile Include="YaxlGame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Audio\YaxlAudio.h" />
+    <ClInclude Include="Core\Audio\YaxlAudioInternal.h" />
     <ClInclude Include="Core\Input\YaxlInput.h" />
     <ClInclude Include="Core\Time\YaxlTimeInternal.h" />
     <ClInclude Include="Core\Time\YaxlTime.h" />
+    <ClInclude Include="Core\Transform\YaxlTransform.h" />
+    <ClInclude Include="Core\Transform\YaxlTransform2D.h" />
     <ClInclude Include="ExternalLibrary\GLAD\include\glad\glad.h" />
     <ClInclude Include="ExternalLibrary\GLAD\include\KHR\khrplatform.h" />
     <ClInclude Include="ExternalLibrary\GLFW\include\GLFW\glfw3.h" />
@@ -62,6 +69,7 @@
     <ClInclude Include="ExternalLibrary\imgui\imstb_rectpack.h" />
     <ClInclude Include="ExternalLibrary\imgui\imstb_textedit.h" />
     <ClInclude Include="ExternalLibrary\imgui\imstb_truetype.h" />
+    <ClInclude Include="ExternalLibrary\miniaudio\miniaudio.h" />
     <ClInclude Include="Graphics\DefaultShader\YaxlSprite3DShader.h" />
     <ClInclude Include="Graphics\YaxlGraphics.h" />
     <ClInclude Include="Graphics\YaxlGraphicsInternal.h" />
