@@ -148,13 +148,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
-    <OutDir>$(SolutionDir)BuildOutput\Lib\</OutDir>
+    <OutDir>$(SolutionDir)Output\lib\</OutDir>
     <IncludePath>
     </IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
-    <OutDir>$(SolutionDir)BuildOutput\Lib\</OutDir>
+    <OutDir>$(SolutionDir)Output\lib\</OutDir>
     <IncludePath>
     </IncludePath>
   </PropertyGroup>
