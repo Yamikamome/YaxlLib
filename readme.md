@@ -6,6 +6,7 @@
 [GLAD](https://glad.dav1d.de/) OpenGL関数のロード<br>
 [ImGui](https://github.com/ocornut/imgui) デバッグ用GUI<br>
 [stb_image](https://github.com/nothings/stb/tree/master) 画像読み込み<br>
+[miniaudio](https://github.com/mackron/miniaudio) オーディオ管理<br>
 使用しているライブラリは YaxlLib/ExternalLibrary 内で管理されています<br>
 # 開発経緯
 学校で使っていたゲーム開発用ライブラリの改造に限界を感じたため<br>
