@@ -204,7 +204,7 @@ namespace Yaxl {
 	/// <param name="center">= 中心</param>
 	/// <param name="color">= カラー</param>
 	/// <param name="angle">= 角度</param>
-	void DrawSprite2D(unsigned int id, Vector2* position, Rect* rect, Vector2* scale, Vector2* center, Color* color, float angle = 0.0f);
+	void DrawSprite2D(unsigned int id, Vector2* position, Rect* rect = nullptr, Vector2* scale = nullptr, Vector2* center = nullptr, Color* color = nullptr, float angle = 0.0f);
 
 	/// <summary>
 	/// 3Dスプライトを描画
@@ -215,7 +215,7 @@ namespace Yaxl {
 	/// <param name="center">= 中心</param>
 	/// <param name="color">= カラー</param>
 	/// <param name="angle">= 角度</param>
-	void DrawSprite3D(unsigned int id, Vector3* position, Rect* rect, Vector2* scale, Vector2* center, Color* color, float angle = 0.0f);
+	void DrawSprite3D(unsigned int id, Vector3* position, Rect* rect = nullptr, Vector2* scale = nullptr, Vector2* center = nullptr, Color* color = nullptr, float angle = 0.0f);
 
 #pragma endregion
 

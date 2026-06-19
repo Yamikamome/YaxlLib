@@ -369,6 +369,10 @@ Texture* Yaxl::GetTexture(unsigned int id) {
 }
 
 void Yaxl::DrawSprite2D(unsigned int id, Vector2* position, Rect* rect, Vector2* scale, Vector2* center, Color* color, float angle) {
+	// テクスチャの取得
+	Texture* texture = GetTexture(id);
+	if (texture == nullptr) return;
+
 	// シェーダーがバインドされていなければデフォルトシェーダーをバインドする
 	bool is_empty_shader = active_shader_stack_.empty();
 	if (is_empty_shader) {
@@ -382,10 +386,7 @@ void Yaxl::DrawSprite2D(unsigned int id, Vector2* position, Rect* rect, Vector2*
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// テクスチャをバインド
-	Internal::BindTexture(id, 0);
-
-	// バインド中のテクスチャ
-	Texture* texture = GetTexture(id);
+	texture->Bind(0);
 
 	// バインド中のテクスチャサイズを取得
 	float tw = 1.0f;
@@ -423,14 +424,20 @@ void Yaxl::DrawSprite2D(unsigned int id, Vector2* position, Rect* rect, Vector2*
 	// 画面サイズの取得
 	Vector2 screen_size{ logical_window_width_, logical_window_height_ };
 
+	// デフォルトパラメータ
+	static Vector2 DEFAULT_POSITION{ 0.0f, 0.0f };
+	static Vector2 DEFAULT_SCALE{ 1.0f, 1.0f };
+	static Vector2 DEFAULT_CENTER{ 0.0f, 0.0f };
+	static Color DEFAULT_COLOR{ 1.0f, 1.0f, 1.0f, 1.0f };
+
 	// パラメータを設定
 	SetShaderParamVector2("u_ScreenSize", &screen_size);
-	SetShaderParamVector2("u_SpritePosition", position);
+	SetShaderParamVector2("u_SpritePosition", position ? position : &DEFAULT_POSITION);
 	SetShaderParamVector2("u_SpriteSize", &sprite_size);
-	SetShaderParamVector2("u_SpriteScale", scale);
-	SetShaderParamVector2("u_SpriteCenter", center);
+	SetShaderParamVector2("u_SpriteScale", scale ? scale : &DEFAULT_SCALE);
+	SetShaderParamVector2("u_SpriteCenter", center ? center : &DEFAULT_CENTER);
 	SetShaderParamFloat("u_SpriteAngle", angle_rad);
-	SetShaderParamVector4("u_SpriteColor", color);
+	SetShaderParamVector4("u_SpriteColor", color ? color : &DEFAULT_COLOR);
 	SetShaderParamVector2("u_TexturePosition", &tex_pos);
 	SetShaderParamVector2("u_TextureSize", &tex_size);
 	SetShaderParamInt("u_BaseMap", 0);
@@ -450,6 +457,10 @@ void Yaxl::DrawSprite2D(unsigned int id, Vector2* position, Rect* rect, Vector2*
 }
 
 void Yaxl::DrawSprite3D(unsigned int id, Vector3* position, Rect* rect, Vector2* scale, Vector2* center, Color* color, float angle) {
+	// テクスチャの取得
+	Texture* texture = GetTexture(id);
+	if (texture == nullptr) return;
+
 	// シェーダーがバインドされていなければデフォルトシェーダーをバインドする
 	bool is_empty_shader = active_shader_stack_.empty();
 	if (is_empty_shader) {
@@ -463,10 +474,7 @@ void Yaxl::DrawSprite3D(unsigned int id, Vector3* position, Rect* rect, Vector2*
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// テクスチャをバインド
-	Internal::BindTexture(id, 0);
-
-	// バインド中のテクスチャ
-	Texture* texture = GetTexture(id);
+	texture->Bind(0);
 
 	// バインド中のテクスチャサイズを取得
 	float tw = 1.0f;
@@ -504,16 +512,22 @@ void Yaxl::DrawSprite3D(unsigned int id, Vector3* position, Rect* rect, Vector2*
 	// 画面サイズの取得
 	Vector2 screen_size{ logical_window_width_, logical_window_height_ };
 
+	// デフォルトパラメータ
+	static Vector3 DEFAULT_POSITION{ 0.0f, 0.0f, 0.0f };
+	static Vector2 DEFAULT_SCALE{ 1.0f, 1.0f };
+	static Vector2 DEFAULT_CENTER{ 0.0f, 0.0f };
+	static Color DEFAULT_COLOR{ 1.0f, 1.0f, 1.0f, 1.0f };
+
+	SetShaderParamVector3("u_SpritePosition", position ? position : &DEFAULT_POSITION);
 	SetShaderParamVector2("u_SpriteSize", &sprite_size);
-	SetShaderParamVector2("u_SpriteCenter", center);
-	SetShaderParamVector2("u_SpriteScale", scale);
+	SetShaderParamVector2("u_SpriteScale", scale ? scale : &DEFAULT_SCALE);
+	SetShaderParamVector2("u_SpriteCenter", center ? center : &DEFAULT_CENTER);
 	SetShaderParamFloat("u_SpriteAngle", angle_rad);
-	SetShaderParamVector3("u_SpritePosition", position);
 	SetShaderParamVector2("u_TexturePosition", &tex_pos);
 	SetShaderParamVector2("u_TextureSize", &tex_size);
 	SetShaderParamMatrix4x4("u_matView", &current_view_matrix_);
 	SetShaderParamMatrix4x4("u_matProjection", &current_projection_matrix_);
-	SetShaderParamVector4("u_SpriteColor", color);
+	SetShaderParamVector4("u_SpriteColor", color ? color : &DEFAULT_COLOR);
 	SetShaderParamInt("u_BaseMap", 0);
 
 	// 描画
