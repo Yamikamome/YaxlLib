@@ -1,4 +1,4 @@
-static const char* YAXL_DEFAULT_SPRITE_3D_SHADER_VERT =
+static const char* YAXL_DEFAULT_3D_SPRITE_SHADER_VERT =
 "#version 330\n"
 "\n"
 "// 入力頂点座標\n"
@@ -53,7 +53,7 @@ static const char* YAXL_DEFAULT_SPRITE_3D_SHADER_VERT =
 "	v_TexCoord = tex_coord * u_TextureSize + u_TexturePosition;\n"
 "}\n";
 
-static const char* YAXL_DEFAULT_SPRITE_3D_SHADER_FRAG =
+static const char* YAXL_DEFAULT_3D_SPRITE_SHADER_FRAG =
 "#version 330\n"
 "\n"
 "// 入力テクスチャ座標\n"
