@@ -3,6 +3,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "YaxlGraphics.h"
 #include "YaxlGraphicsInternal.h"
 
 using namespace Yaxl;
@@ -174,7 +175,7 @@ void Yaxl::GraphicsDevice::FramebufferSizeCallback(GLFWwindow* window, int width
 	if (device == nullptr || width == 0 || height == 0) return;
 
 	// 目的のアスペクト比
-	const float target_aspect = Internal::GetLogicalWindowWidth() / Internal::GetLogicalWindowHeight();
+	const float target_aspect = GetLogicalWindowWidth() / GetLogicalWindowHeight();
 	// 現在のウィンドウのアスペクト比
 	const float window_aspect = static_cast<float>(width) / static_cast<float>(height);
 
