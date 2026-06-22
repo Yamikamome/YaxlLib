@@ -117,6 +117,47 @@ bool Yaxl::BoxCollider2D::IsCollide(CircleCollider2D& other, Vector2* push_out) 
 	return true;
 }
 
+bool Yaxl::BoxCollider2D::IsCollide(const Collider2D& other) const {
+	return other.IsCollide(*this);
+}
+
+bool Yaxl::BoxCollider2D::IsCollide(const BoxCollider2D& other) const {
+	// 距離の差分
+	const float diff_x = other.center.x - center.x;
+	const float diff_y = other.center.y - center.y;
+	// 中心から端までの距離の合計
+	const float sum_half_w = (size.x + other.size.x) * 0.5f;
+	const float sum_half_h = (size.y + other.size.y) * 0.5f;
+
+	// 重なり具合
+	const float overlap_x = sum_half_w - Math::Abs(diff_x);
+	const float overlap_y = sum_half_h - Math::Abs(diff_y);
+
+	return overlap_x > 0.0f && overlap_y > 0.0f;
+}
+
+bool Yaxl::BoxCollider2D::IsCollide(const CircleCollider2D& other) const {
+	const float half_w = size.x * 0.5f;
+	const float half_h = size.y * 0.5f;
+
+	const float min_x = center.x - half_w;
+	const float max_x = center.x + half_w;
+	const float min_y = center.y - half_h;
+	const float max_y = center.y + half_h;
+
+	// 矩形上で、円の中心に最も近い点を求める
+	Vector2 closest;
+	closest.x = Math::Clamp(other.center.x, min_x, max_x);
+	closest.y = Math::Clamp(other.center.y, min_y, max_y);
+
+	// 最近接点から円の中心へのベクトル
+	const float diff_x = other.center.x - closest.x;
+	const float diff_y = other.center.y - closest.y;
+	const float sqr_dist = (diff_x * diff_x) + (diff_y * diff_y);
+
+	return sqr_dist <= other.radius * other.radius;
+}
+
 void Yaxl::BoxCollider2D::Draw(Color* color) const {
 	const float half_w = size.x * 0.5f;
 	const float half_h = size.y * 0.5f;

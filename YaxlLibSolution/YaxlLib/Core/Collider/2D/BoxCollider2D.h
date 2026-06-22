@@ -20,6 +20,10 @@ public:
 	bool IsCollide(BoxCollider2D& other, Vector2* push_out = nullptr) override;
 	bool IsCollide(CircleCollider2D& other, Vector2* push_out = nullptr) override;
 
+	bool IsCollide(const Collider2D& other) const override;
+	bool IsCollide(const BoxCollider2D& other) const override;
+	bool IsCollide(const CircleCollider2D& other) const override;
+
 	void Draw(Color* color = nullptr) const override;
 
 public:

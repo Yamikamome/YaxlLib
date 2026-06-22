@@ -68,6 +68,24 @@ bool Yaxl::CircleCollider2D::IsCollide(CircleCollider2D& other, Vector2* push_ou
 	return true;
 }
 
+bool Yaxl::CircleCollider2D::IsCollide(const Collider2D& other) const {
+	return other.IsCollide(*this);
+}
+
+bool Yaxl::CircleCollider2D::IsCollide(const BoxCollider2D& other) const {
+	return other.IsCollide(*this);
+}
+
+bool Yaxl::CircleCollider2D::IsCollide(const CircleCollider2D& other) const {
+	const float diff_x = other.center.x - center.x;
+	const float diff_y = other.center.y - center.y;
+	const float sqr_dist = (diff_x * diff_x) + (diff_y * diff_y);
+
+	const float sum_radius = radius + other.radius;
+
+	return sqr_dist <= sum_radius * sum_radius;
+}
+
 void Yaxl::CircleCollider2D::Draw(Color* color) const {
 	Vector2 position = center;
 	DrawCircle2D(&position, radius, color);
