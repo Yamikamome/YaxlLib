@@ -16,18 +16,6 @@ namespace Yaxl::Internal {
 void SetLogicalWindowSize(float width, float height);
 
 /// <summary>
-/// 論理解像度の取得
-/// </summary>
-/// <returns>幅</returns>
-float GetLogicalWindowWidth();
-
-/// <summary>
-/// 論理解像度の取得
-/// </summary>
-/// <returns>高さ</returns>
-float GetLogicalWindowHeight();
-
-/// <summary>
 /// 初期化
 /// </summary>
 void InitGraphics();
