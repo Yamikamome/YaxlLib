@@ -16,21 +16,24 @@ public:
 	CircleCollider2D(const Vector2& center, float radius);
 
 public:
-	bool IsCollide(Collider2D& other, Vector2* push_out = nullptr) override;
-	bool IsCollide(BoxCollider2D& other, Vector2* push_out = nullptr) override;
-	bool IsCollide(CircleCollider2D& other, Vector2* push_out = nullptr) override;
-
-	bool IsCollide(const Collider2D& other) const override;
-	bool IsCollide(const BoxCollider2D& other) const override;
-	bool IsCollide(const CircleCollider2D& other) const override;
+	bool IsCollide(const Collider2D& other, Vector2* push_out = nullptr) const override;
+	bool IsCollide(const BoxCollider2D& other, Vector2* push_out = nullptr) const override;
+	bool IsCollide(const CircleCollider2D& other, Vector2* push_out = nullptr) const override;
 
 	void Draw(Color* color = nullptr) const override;
+
+	Vector2 Center() const override;
 
 public:
 	/// <summary>
 	/// 平行移動
 	/// </summary>
 	CircleCollider2D Translate(const Vector2& pos) const;
+
+	/// <summary>
+	/// 半径
+	/// </summary>
+	float Radius() const;
 
 public:
 	// 中心

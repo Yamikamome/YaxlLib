@@ -25,22 +25,12 @@ public:
 	/// <param name="other">= 相手のコライダー</param>
 	/// <param name="push_out">= 衝突時の押し出し量</param>
 	/// <returns>衝突していたら真を、衝突していなければ偽を返す</returns>
-	virtual bool IsCollide(Collider2D& other, Vector2* push_out = nullptr) = 0;
-
-	/// <summary>
-	/// 衝突判定（const）
-	/// </summary>
-	/// <param name="other">= 相手のコライダー</param>
-	/// <returns>衝突していたら真を、衝突していなければ偽を返す</returns>
-	virtual bool IsCollide(const Collider2D& other) const = 0;
+	virtual bool IsCollide(const Collider2D& other, Vector2* push_out = nullptr) const = 0;
 
 	// ダブルディスパッチ用インターフェース
 public:
-	virtual bool IsCollide(BoxCollider2D& other, Vector2* push_out = nullptr) = 0;
-	virtual bool IsCollide(CircleCollider2D& other, Vector2* push_out = nullptr) = 0;
-
-	virtual bool IsCollide(const BoxCollider2D& other) const = 0;
-	virtual bool IsCollide(const CircleCollider2D& other) const = 0;
+	virtual bool IsCollide(const BoxCollider2D& other, Vector2* push_out = nullptr) const = 0;
+	virtual bool IsCollide(const CircleCollider2D& other, Vector2* push_out = nullptr) const = 0;
 
 public:
 	/// <summary>
@@ -48,6 +38,11 @@ public:
 	/// </summary>
 	/// <param name="color">= カラー</param>
 	virtual void Draw(Color* color = nullptr) const = 0;
+
+	/// <summary>
+	/// 中心位置
+	/// </summary>
+	virtual Vector2 Center() const = 0;
 };
 
 }	// namespace Yaxl end
