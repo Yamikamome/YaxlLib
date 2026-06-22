@@ -12,6 +12,8 @@
 *	コア
 */
 #include "Core/Audio/YaxlAudio.h"
+#include "Core/Collider/2D/BoxCollider2D.h"
+#include "Core/Collider/2D/CircleCollider2D.h"
 #include "Core/Input/YaxlInput.h"
 #include "Core/Time/YaxlTime.h"
 #include "Core/Transform/YaxlTransform.h"
