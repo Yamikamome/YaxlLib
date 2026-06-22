@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Audio\YaxlAudio.cpp" />
+    <ClCompile Include="Core\Collider\2D\BoxCollider2D.cpp" />
+    <ClCompile Include="Core\Collider\2D\CircleCollider2D.cpp" />
     <ClCompile Include="Core\Input\YaxlInput.cpp" />
     <ClCompile Include="Core\Time\YaxlTime.cpp" />
     <ClCompile Include="Core\Transform\YaxlTransform.cpp" />
@@ -51,6 +53,9 @@
   <ItemGroup>
     <ClInclude Include="Core\Audio\YaxlAudio.h" />
     <ClInclude Include="Core\Audio\YaxlAudioInternal.h" />
+    <ClInclude Include="Core\Collider\2D\BoxCollider2D.h" />
+    <ClInclude Include="Core\Collider\2D\CircleCollider2D.h" />
+    <ClInclude Include="Core\Collider\2D\Collider2D.h" />
     <ClInclude Include="Core\Input\YaxlInput.h" />
     <ClInclude Include="Core\Time\YaxlTimeInternal.h" />
     <ClInclude Include="Core\Time\YaxlTime.h" />
@@ -70,7 +75,8 @@
     <ClInclude Include="ExternalLibrary\imgui\imstb_textedit.h" />
     <ClInclude Include="ExternalLibrary\imgui\imstb_truetype.h" />
     <ClInclude Include="ExternalLibrary\miniaudio\miniaudio.h" />
-    <ClInclude Include="Graphics\DefaultShader\YaxlSprite3DShader.h" />
+    <ClInclude Include="Graphics\DefaultShader\Yaxl2DCircleShader.h" />
+    <ClInclude Include="Graphics\DefaultShader\Yaxl3DSpriteShader.h" />
     <ClInclude Include="Graphics\YaxlGraphics.h" />
     <ClInclude Include="Graphics\YaxlGraphicsInternal.h" />
     <ClInclude Include="Graphics\YaxlShader.h" />
@@ -92,7 +98,7 @@
     <ClInclude Include="YaxlLib.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Graphics\DefaultShader\YaxlSprite2DShader.h" />
+    <None Include="Graphics\DefaultShader\Yaxl2DSpriteShader.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
