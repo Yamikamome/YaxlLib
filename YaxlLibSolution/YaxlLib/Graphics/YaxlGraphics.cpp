@@ -17,16 +17,19 @@
 #include "Math/YaxlVector3.h"
 #include "Math/YaxlVector4.h"
 
-#include "DefaultShader/YaxlSprite2DShader.h"
-#include "DefaultShader/YaxlSprite3DShader.h"
+#include "DefaultShader/Yaxl2DSpriteShader.h"
+#include "DefaultShader/Yaxl3DSpriteShader.h"
+#include "DefaultShader/Yaxl2DCircleShader.h"
 
 using namespace Yaxl;
 
 static constexpr unsigned int SHADER_EMPTY_ID{ 0xFFFFFFFF };
 static constexpr unsigned int SHADER_DEFAULT_2D_SPRITE_ID{ 0xFFFFFFFF - 1 };
 static constexpr unsigned int SHADER_DEFAULT_3D_SPRITE_ID{ 0xFFFFFFFF - 2 };
+static constexpr unsigned int SHADER_DEFAULT_2D_CIRCLE_ID{ 0xFFFFFFFF - 3 };
 
 static constexpr unsigned int TEXTURE_EMPTY_ID{ 0xFFFFFFFF };
+static constexpr unsigned int TEXTURE_WHITE_ID{ 0xFFFFFFFF - 1 };
 
 namespace {
 	// 論理解像度の幅
@@ -44,10 +47,12 @@ namespace {
 	// シェーダースタック
 	std::stack<unsigned int> active_shader_stack_;
 
-	// デフォルトスプライト2Dシェーダー
-	unsigned int default_sprite_2d_shader_id_ = SHADER_EMPTY_ID;
-	// デフォルトスプライト3Dシェーダー
-	unsigned int default_sprite_3d_shader_id_ = SHADER_EMPTY_ID;
+	// デフォルト2Dスプライトシェーダー
+	unsigned int default_shader_2d_sprite_id_ = SHADER_EMPTY_ID;
+	// デフォルト3Dスプライトシェーダー
+	unsigned int default_shader_3d_sprite_id_ = SHADER_EMPTY_ID;
+	// デフォルト2D円シェーダー
+	unsigned int default_shader_2d_circle_id_ = SHADER_EMPTY_ID;
 
 	// テクスチャマップ
 	std::unordered_map<unsigned int, Texture*> textures_map_;
@@ -65,21 +70,16 @@ void Yaxl::Internal::SetLogicalWindowSize(float width, float height) {
 	logical_window_height_ = height;
 }
 
-float Yaxl::Internal::GetLogicalWindowWidth() {
-	return logical_window_width_;
-}
-
-float Yaxl::Internal::GetLogicalWindowHeight() {
-	return logical_window_height_;
-}
-
 void Yaxl::Internal::InitGraphics() {
 	// デフォルトシェーダーの読み込み
-	if (LoadShaderString(SHADER_DEFAULT_2D_SPRITE_ID, YAXL_DEFAULT_SPRITE_2D_SHADER_VERT, YAXL_DEFAULT_SPRITE_2D_SHADER_FRAG)) {
-		default_sprite_2d_shader_id_ = SHADER_DEFAULT_2D_SPRITE_ID;
+	if (LoadShaderString(SHADER_DEFAULT_2D_SPRITE_ID, YAXL_DEFAULT_2D_SPRITE_SHADER_VERT, YAXL_DEFAULT_2D_SPRITE_SHADER_FRAG)) {
+		default_shader_2d_sprite_id_ = SHADER_DEFAULT_2D_SPRITE_ID;
 	}
-	if (LoadShaderString(SHADER_DEFAULT_3D_SPRITE_ID, YAXL_DEFAULT_SPRITE_3D_SHADER_VERT, YAXL_DEFAULT_SPRITE_3D_SHADER_FRAG)) {
-		default_sprite_3d_shader_id_ = SHADER_DEFAULT_3D_SPRITE_ID;
+	if (LoadShaderString(SHADER_DEFAULT_3D_SPRITE_ID, YAXL_DEFAULT_3D_SPRITE_SHADER_VERT, YAXL_DEFAULT_3D_SPRITE_SHADER_FRAG)) {
+		default_shader_3d_sprite_id_ = SHADER_DEFAULT_3D_SPRITE_ID;
+	}
+	if (LoadShaderString(SHADER_DEFAULT_2D_CIRCLE_ID, YAXL_DEFAULT_2D_CIRCLE_SHADER_VERT, YAXL_DEFAULT_2D_CIRCLE_SHADER_FRAG)) {
+		default_shader_2d_circle_id_ = SHADER_DEFAULT_2D_CIRCLE_ID;
 	}
 
 	// スプライトの生成
@@ -114,6 +114,26 @@ void Yaxl::Internal::InitGraphics() {
 		// バインド解除
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
+	}
+
+	// 白スプライトの作成
+	{
+		// 1ピクセルの白データを生成
+		unsigned char white_pixel[] = { 255, 255, 255, 255 };
+
+		unsigned int texture;
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+
+		// ピクセルデータからテクスチャデータを作成
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, white_pixel);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		// 登録
+		Texture* tex = new Texture{ texture, 1, 1 };
+		textures_map_[TEXTURE_WHITE_ID] = tex;
 	}
 }
 
@@ -192,6 +212,14 @@ Matrix4x4 Yaxl::GetViewMatrix() {
 
 Matrix4x4 Yaxl::GetProjectionMatrix() {
 	return current_projection_matrix_;
+}
+
+float Yaxl::GetLogicalWindowWidth() {
+	return logical_window_width_;
+}
+
+float Yaxl::GetLogicalWindowHeight() {
+	return logical_window_height_;
 }
 
 float Yaxl::GetAspect() {
@@ -324,12 +352,100 @@ void Yaxl::SetShaderParamMatrix4x4(const char* name, Matrix4x4* param) {
 	}
 }
 
-void Yaxl::BindDefaultSprite2DShader(unsigned int id) {
-	default_sprite_2d_shader_id_ = id;
+void Yaxl::BindDefault2DSpriteShader(unsigned int id) {
+	default_shader_2d_sprite_id_ = id;
 }
 
-unsigned int Yaxl::GetBindDefaultSprite2DShader() {
-	return default_sprite_2d_shader_id_;
+unsigned int Yaxl::GetBindDefault2DSpriteShader() {
+	return default_shader_2d_sprite_id_;
+}
+
+void Yaxl::BindDefault3DSpriteShader(unsigned int id) {
+	default_shader_3d_sprite_id_ = id;
+}
+
+unsigned int Yaxl::GetBindDefault3DSpriteShader() {
+	return default_shader_3d_sprite_id_;
+}
+
+void Yaxl::DrawRect2D(Vector2* position, Vector2* scale, Color* color, float angle) {
+	Vector2 center{ 0.0f, 0.0f };
+	DrawSprite2D(TEXTURE_WHITE_ID, position, nullptr, scale, &center, color, angle);
+}
+
+void Yaxl::DrawRect2D(Rect* rect, Color* color, float angle) {
+	if (rect == nullptr) {
+		return;
+	}
+
+	Vector2 position{ rect->left, rect->top };
+	Vector2 scale{ rect->right - rect->left, rect->bottom - rect->top };
+	Vector2 center{ 0.0f, 0.0f };
+	DrawSprite2D(TEXTURE_WHITE_ID, &position, nullptr, &scale, &center, color, angle);
+}
+
+void Yaxl::DrawCircle2D(Vector2* position, float radius, Color* color) {
+	// テクスチャの取得
+	Texture* texture = GetTexture(TEXTURE_WHITE_ID);
+	if (texture == nullptr) {
+		return;
+	}
+
+	// シェーダーがバインドされていなければ円用デフォルトシェーダーをバインドする
+	bool is_empty_shader = active_shader_stack_.empty();
+	if (is_empty_shader) {
+		BeginShader(SHADER_DEFAULT_2D_CIRCLE_ID);
+	}
+
+	// ステート設定
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	// テクスチャをバインド
+	texture->Bind(0);
+
+	// 円の直径
+	Vector2 size{ radius * 2.0f, radius * 2.0f };
+	// 円の中心
+	Vector2 center{ radius, radius };
+	// 画面サイズの取得
+	Vector2 screen_size{ (float)logical_window_width_, (float)logical_window_height_ };
+
+	// デフォルトパラメータ
+	static Vector2 DEFAULT_POSITION{ 0.0f, 0.0f };
+	static Vector2 DEFAULT_SCALE{ 1.0f, 1.0f };
+	static Color DEFAULT_COLOR{ 1.0f, 1.0f, 1.0f, 1.0f };
+	static Vector2 SPRITE_SIZE{ 1.0f, 1.0f };
+	static Vector2 DEFAULT_TEX_POS{ 0.0f, 0.0f };
+	static Vector2 DEFAULT_TEX_SIZE{ 1.0f, 1.0f };
+	float DEFAULT_ANGLE{ 0.0f };
+
+	// パラメータを設定
+	SetShaderParamVector2("u_ScreenSize", &screen_size);
+	SetShaderParamVector2("u_SpritePosition", position ? position : &DEFAULT_POSITION);
+	SetShaderParamVector2("u_SpriteSize", &size);
+	SetShaderParamVector2("u_SpriteScale", &DEFAULT_SCALE);
+	SetShaderParamVector2("u_SpriteCenter", &center);
+	SetShaderParamFloat("u_SpriteAngle", DEFAULT_ANGLE);
+	SetShaderParamVector4("u_SpriteColor", color ? color : &DEFAULT_COLOR);
+	SetShaderParamVector2("u_TexturePosition", &DEFAULT_TEX_POS);
+	SetShaderParamVector2("u_TextureSize", &DEFAULT_TEX_SIZE);
+	SetShaderParamInt("u_BaseMap", 0);
+
+	// 描画
+	glBindVertexArray(sprite_vao_);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glBindVertexArray(0);
+
+	// 空テクスチャをバインドして解除
+	Internal::BindTexture(TEXTURE_EMPTY_ID, 0);
+
+	// デフォルトシェーダーを使用したならバインドを解除する
+	if (is_empty_shader) {
+		EndShader();
+	}
 }
 
 #pragma endregion
@@ -371,7 +487,9 @@ Texture* Yaxl::GetTexture(unsigned int id) {
 void Yaxl::DrawSprite2D(unsigned int id, Vector2* position, Rect* rect, Vector2* scale, Vector2* center, Color* color, float angle) {
 	// テクスチャの取得
 	Texture* texture = GetTexture(id);
-	if (texture == nullptr) return;
+	if (texture == nullptr) {
+		return;
+	}
 
 	// シェーダーがバインドされていなければデフォルトシェーダーをバインドする
 	bool is_empty_shader = active_shader_stack_.empty();
@@ -389,12 +507,8 @@ void Yaxl::DrawSprite2D(unsigned int id, Vector2* position, Rect* rect, Vector2*
 	texture->Bind(0);
 
 	// バインド中のテクスチャサイズを取得
-	float tw = 1.0f;
-	float th = 1.0f;
-	if (texture != nullptr) {
-		tw = (float)texture->GetWidth();
-		th = (float)texture->GetHeight();
-	}
+	float tw = (float)texture->GetWidth();
+	float th = (float)texture->GetHeight();
 
 	float sprite_w = 1.0f;
 	float sprite_h = 1.0f;
@@ -420,7 +534,7 @@ void Yaxl::DrawSprite2D(unsigned int id, Vector2* position, Rect* rect, Vector2*
 	// 画像の切り出しサイズ
 	Vector2 tex_size{ sprite_w / tw, sprite_h / th };
 	// 画像の回転角度
-	float angle_rad = angle * (Math::PI / 180.0f);
+	float angle_rad = angle * Math::PI / 180.0f;
 	// 画面サイズの取得
 	Vector2 screen_size{ logical_window_width_, logical_window_height_ };
 
@@ -459,7 +573,9 @@ void Yaxl::DrawSprite2D(unsigned int id, Vector2* position, Rect* rect, Vector2*
 void Yaxl::DrawSprite3D(unsigned int id, Vector3* position, Rect* rect, Vector2* scale, Vector2* center, Color* color, float angle) {
 	// テクスチャの取得
 	Texture* texture = GetTexture(id);
-	if (texture == nullptr) return;
+	if (texture == nullptr) {
+		return;
+	}
 
 	// シェーダーがバインドされていなければデフォルトシェーダーをバインドする
 	bool is_empty_shader = active_shader_stack_.empty();
@@ -477,12 +593,8 @@ void Yaxl::DrawSprite3D(unsigned int id, Vector3* position, Rect* rect, Vector2*
 	texture->Bind(0);
 
 	// バインド中のテクスチャサイズを取得
-	float tw = 1.0f;
-	float th = 1.0f;
-	if (texture != nullptr) {
-		tw = (float)texture->GetWidth();
-		th = (float)texture->GetHeight();
-	}
+	float tw = (float)texture->GetWidth();
+	float th = (float)texture->GetHeight();
 
 	float sprite_w = 1.0f;
 	float sprite_h = 1.0f;
@@ -508,7 +620,7 @@ void Yaxl::DrawSprite3D(unsigned int id, Vector3* position, Rect* rect, Vector2*
 	// 画像の切り出しサイズ
 	Vector2 tex_size{ sprite_w / tw, sprite_h / th };
 	// 画像の回転角度
-	float angle_rad = angle * (Math::PI / 180.0f);
+	float angle_rad = angle * Math::PI / 180.0f;
 	// 画面サイズの取得
 	Vector2 screen_size{ logical_window_width_, logical_window_height_ };
 

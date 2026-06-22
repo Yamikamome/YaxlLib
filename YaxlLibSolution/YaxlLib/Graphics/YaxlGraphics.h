@@ -47,6 +47,18 @@ namespace Yaxl {
 	Matrix4x4 GetProjectionMatrix();
 
 	/// <summary>
+	/// 論理解像度の取得
+	/// </summary>
+	/// <returns>幅</returns>
+	float GetLogicalWindowWidth();
+
+	/// <summary>
+	/// 論理解像度の取得
+	/// </summary>
+	/// <returns>高さ</returns>
+	float GetLogicalWindowHeight();
+
+	/// <summary>
 	/// アスペクト比を取得
 	/// </summary>
 	/// <returns>比率</returns>
@@ -158,13 +170,54 @@ namespace Yaxl {
 	/// デフォルトの2Dスプライト用シェーダーをバインドする
 	/// </summary>
 	/// <param name="id">= シェーダーID</param>
-	void BindDefaultSprite2DShader(unsigned int id);
+	void BindDefault2DSpriteShader(unsigned int id);
 
 	/// <summary>
 	/// バインドされているデフォルトの2Dスプライト用シェーダーIDを取得する
 	/// </summary>
 	/// <returns>= シェーダーID</returns>
-	unsigned int GetBindDefaultSprite2DShader();
+	unsigned int GetBindDefault2DSpriteShader();
+
+	/// <summary>
+	/// デフォルトの3Dスプライト用シェーダーをバインドする
+	/// </summary>
+	/// <param name="id">= シェーダーID</param>
+	void BindDefault3DSpriteShader(unsigned int id);
+
+	/// <summary>
+	/// バインドされているデフォルトの3Dスプライト用シェーダーIDを取得する
+	/// </summary>
+	/// <returns>= シェーダーID</returns>
+	unsigned int GetBindDefault3DSpriteShader();
+
+#pragma endregion
+
+#pragma region [2DSimple]
+
+	/// <summary>
+	/// 2D矩形を描画
+	/// </summary>
+	/// <param name="position">= 位置</param>
+	/// <param name="scale">= スケール</param>
+	/// <param name="color">= カラー</param>
+	/// <param name="angle">= 角度</param>
+	void DrawRect2D(Vector2* position, Vector2* scale, Color* color = nullptr, float angle = 0.0f);
+
+	/// <summary>
+	/// 2D矩形を描画
+	/// </summary>
+	/// <param name="rect">= 描画範囲</param>
+	/// <param name="color">= カラー</param>
+	/// <param name="angle">= 角度</param>
+	void DrawRect2D(Rect* rect, Color* color = nullptr, float angle = 0.0f);
+
+	/// <summary>
+	/// 2D円を描画
+	/// </summary>
+	/// <param name="position">= 位置</param>
+	/// <param name="radius">= 半径</param>
+	/// <param name="color">= カラー</param>
+	void DrawCircle2D(Vector2* position, float radius, Color* color = nullptr);
 
 #pragma endregion
 
@@ -201,6 +254,7 @@ namespace Yaxl {
 	/// <param name="id">= テクスチャID</param>
 	/// <param name="position">= 位置</param>
 	/// <param name="rect">= 描画範囲</param>
+	/// <param name="scale">= スケール</param>
 	/// <param name="center">= 中心</param>
 	/// <param name="color">= カラー</param>
 	/// <param name="angle">= 角度</param>
@@ -212,6 +266,7 @@ namespace Yaxl {
 	/// <param name="id">= テクスチャID</param>
 	/// <param name="position">= 位置</param>
 	/// <param name="rect">= 描画範囲</param>
+	/// <param name="scale">= スケール</param>
 	/// <param name="center">= 中心</param>
 	/// <param name="color">= カラー</param>
 	/// <param name="angle">= 角度</param>
