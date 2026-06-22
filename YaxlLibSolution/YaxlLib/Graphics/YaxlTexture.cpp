@@ -16,6 +16,13 @@ Texture::Texture() :
 	channels_(0) {
 }
 
+Yaxl::Texture::Texture(unsigned int gl_id, int width, int height) :
+	gl_texture_id_(gl_id),
+	width_(width),
+	height_(height),
+	channels_(0) {
+}
+
 Texture::~Texture() {
 	Delete();
 }

@@ -12,6 +12,8 @@ class Texture {
 public:
 	Texture();
 
+	Texture(unsigned int gl_id, int width, int height);
+
 	~Texture();
 
 	/// <summary>
