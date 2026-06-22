@@ -62,4 +62,3 @@ static const char* YAXL_DEFAULT_SPRITE_2D_SHADER_FRAG =
 "void main(void) {\n"
 "	out_FragColor = texture(u_BaseMap, v_TexCoord) * u_SpriteColor;\n"
 "}\n";
-
