@@ -1,5 +1,6 @@
 #include "CircleCollider2D.h"
 #include "BoxCollider2D.h"
+#include "RectCollider2D.h"
 
 #include "Graphics/YaxlGraphics.h"
 #include "Math/YaxlMath.h"
@@ -68,9 +69,17 @@ bool Yaxl::CircleCollider2D::IsCollide(const CircleCollider2D& other, Vector2* p
 	return true;
 }
 
-void Yaxl::CircleCollider2D::Draw(Color* color) const {
+bool Yaxl::CircleCollider2D::IsCollide(const RectCollider2D& other, Vector2* push_out) const {
+	return other.IsCollide(*this, push_out);
+}
+
+void Yaxl::CircleCollider2D::Draw(float scale, Color* color) const {
 	Vector2 position = center;
-	DrawCircle2D(&position, radius, color);
+	DrawCircle2D(&position, radius * scale, color);
+}
+
+Vector2 Yaxl::CircleCollider2D::Position() const {
+	return center;
 }
 
 Vector2 Yaxl::CircleCollider2D::Center() const {

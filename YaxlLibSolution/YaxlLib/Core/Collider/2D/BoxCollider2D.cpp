@@ -1,5 +1,6 @@
 #include "BoxCollider2D.h"
 #include "CircleCollider2D.h"
+#include "RectCollider2D.h"
 
 #include "Graphics/YaxlGraphics.h"
 #include "Math/YaxlMath.h"
@@ -117,12 +118,20 @@ bool Yaxl::BoxCollider2D::IsCollide(const CircleCollider2D& other, Vector2* push
 	return true;
 }
 
-void Yaxl::BoxCollider2D::Draw(Color* color) const {
-	const float half_w = size.x * 0.5f;
-	const float half_h = size.y * 0.5f;
-	Vector2 position{ center.x - half_w , center.y - half_h };
-	Vector2 scale = size;
-	DrawRect2D(&position, &scale, color);
+bool Yaxl::BoxCollider2D::IsCollide(const RectCollider2D& other, Vector2* push_out) const {
+	return IsCollide(other.ToBoxCollider2D(), push_out);
+}
+
+void Yaxl::BoxCollider2D::Draw(float scale, Color* color) const {
+	const float half_w = size.x * 0.5f * scale;
+	const float half_h = size.y * 0.5f * scale;
+	Vector2 p{ center.x - half_w , center.y - half_h };
+	Vector2 s = size * scale;
+	DrawRect2D(&p, &s, color);
+}
+
+Vector2 Yaxl::BoxCollider2D::Position() const {
+	return center - size * 0.5f;
 }
 
 Vector2 Yaxl::BoxCollider2D::Center() const {
@@ -135,4 +144,8 @@ BoxCollider2D Yaxl::BoxCollider2D::Translate(const Vector2& pos) const {
 
 Vector2 Yaxl::BoxCollider2D::Size() const {
 	return size;
+}
+
+RectCollider2D Yaxl::BoxCollider2D::ToRectCollider2D() const {
+	return RectCollider2D{ center - size * 0.5f, size };
 }

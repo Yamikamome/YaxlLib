@@ -21,8 +21,11 @@ public:
 	bool IsCollide(const Collider2D& other, Vector2* push_out = nullptr) const override;
 	bool IsCollide(const BoxCollider2D& other, Vector2* push_out = nullptr) const override;
 	bool IsCollide(const CircleCollider2D& other, Vector2* push_out = nullptr) const override;
+	bool IsCollide(const RectCollider2D& other, Vector2* push_out = nullptr) const override;
 
-	void Draw(Color* color = nullptr) const override;
+	void Draw(float scale = 1.0f, Color* color = nullptr) const override;
+
+	Vector2 Position() const override;
 
 	Vector2 Center() const override;
 
@@ -36,6 +39,11 @@ public:
 	/// 大きさ
 	/// </summary>
 	Vector2 Size() const;
+
+	/// <summary>
+	/// RectColliderに変換
+	/// </summary>
+	RectCollider2D ToRectCollider2D() const;
 
 public:
 	// 中心
