@@ -22,6 +22,7 @@
     <ClCompile Include="Core\Audio\YaxlAudio.cpp" />
     <ClCompile Include="Core\Collider\2D\BoxCollider2D.cpp" />
     <ClCompile Include="Core\Collider\2D\CircleCollider2D.cpp" />
+    <ClCompile Include="Core\Collider\2D\RectCollider2D.cpp" />
     <ClCompile Include="Core\Input\YaxlInput.cpp" />
     <ClCompile Include="Core\Time\YaxlTime.cpp" />
     <ClCompile Include="Core\Transform\YaxlTransform.cpp" />
@@ -56,6 +57,7 @@
     <ClInclude Include="Core\Collider\2D\BoxCollider2D.h" />
     <ClInclude Include="Core\Collider\2D\CircleCollider2D.h" />
     <ClInclude Include="Core\Collider\2D\Collider2D.h" />
+    <ClInclude Include="Core\Collider\2D\RectCollider2D.h" />
     <ClInclude Include="Core\Input\YaxlInput.h" />
     <ClInclude Include="Core\Time\YaxlTimeInternal.h" />
     <ClInclude Include="Core\Time\YaxlTime.h" />
