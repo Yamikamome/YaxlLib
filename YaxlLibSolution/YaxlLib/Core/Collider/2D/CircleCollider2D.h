@@ -9,6 +9,7 @@
 #include "Collider2D.h"
 
 namespace Yaxl {
+
 class CircleCollider2D : public Collider2D {
 public:
 	CircleCollider2D();

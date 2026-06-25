@@ -1,6 +1,7 @@
 // -----------------------------------------------------------------------------------------
 //  Author        : Yamikamome
 //  Description	  : 2D用矩形コライダー
+//					位置を中心で管理する、計算向け
 // -----------------------------------------------------------------------------------------
 
 #ifndef YAXL_BOX_COLLIDER_2D_H_
@@ -9,6 +10,7 @@
 #include "Collider2D.h"
 
 namespace Yaxl {
+
 class BoxCollider2D : public Collider2D {
 public:
 	BoxCollider2D();
