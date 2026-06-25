@@ -12,6 +12,7 @@ namespace Yaxl {
 
 class BoxCollider2D;
 class CircleCollider2D;
+class RectCollider2D;
 class Color;
 
 class Collider2D {
@@ -31,13 +32,20 @@ public:
 public:
 	virtual bool IsCollide(const BoxCollider2D& other, Vector2* push_out = nullptr) const = 0;
 	virtual bool IsCollide(const CircleCollider2D& other, Vector2* push_out = nullptr) const = 0;
+	virtual bool IsCollide(const RectCollider2D& other, Vector2* push_out = nullptr) const = 0;
 
 public:
 	/// <summary>
 	/// 描画
 	/// </summary>
+	/// <param name="color">= スケール</param>
 	/// <param name="color">= カラー</param>
-	virtual void Draw(Color* color = nullptr) const = 0;
+	virtual void Draw(float scale = 1.0f, Color* color = nullptr) const = 0;
+
+	/// <summary>
+	/// 位置
+	/// </summary>
+	virtual Vector2 Position() const = 0;
 
 	/// <summary>
 	/// 中心位置
