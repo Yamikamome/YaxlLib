@@ -11,33 +11,34 @@
 /*
 *	コア
 */
-#include "Core/Audio/YaxlAudio.h"
-#include "Core/Collider/2D/BoxCollider2D.h"
-#include "Core/Collider/2D/CircleCollider2D.h"
-#include "Core/Input/YaxlInput.h"
-#include "Core/Time/YaxlTime.h"
-#include "Core/Transform/YaxlTransform.h"
-#include "Core/Transform/YaxlTransform2D.h"
+#include "Yaxl/Core/Audio/YaxlAudio.h"
+#include "Yaxl/Core/Collider/2D/BoxCollider2D.h"
+#include "Yaxl/Core/Collider/2D/CircleCollider2D.h"
+#include "Yaxl/Core/Collider/2D/RectCollider2D.h"
+#include "Yaxl/Core/Input/YaxlInput.h"
+#include "Yaxl/Core/Time/YaxlTime.h"
+#include "Yaxl/Core/Transform/YaxlTransform.h"
+#include "Yaxl/Core/Transform/YaxlTransform2D.h"
 
 /*
 *	グラフィック
 */
-#include "Graphics/YaxlGraphics.h"
-#include "Graphics/YaxlShader.h"
-#include "Graphics/YaxlTexture.h"
+#include "Yaxl/Graphics/YaxlGraphics.h"
+#include "Yaxl/Graphics/YaxlShader.h"
+#include "Yaxl/Graphics/YaxlTexture.h"
 
 /*
 *	数学系
 */
-#include "Math/YaxlColor.h"
-#include "Math/YaxlMath.h"
-#include "Math/YaxlMatrix3x3.h"
-#include "Math/YaxlMatrix4x4.h"
-#include "Math/YaxlQuaternion.h"
-#include "Math/YaxlRandom.h"
-#include "Math/YaxlRect.h"
-#include "Math/YaxlVector2.h"
-#include "Math/YaxlVector3.h"
-#include "Math/YaxlVector4.h"
+#include "Yaxl/Math/YaxlColor.h"
+#include "Yaxl/Math/YaxlMath.h"
+#include "Yaxl/Math/YaxlMatrix3x3.h"
+#include "Yaxl/Math/YaxlMatrix4x4.h"
+#include "Yaxl/Math/YaxlQuaternion.h"
+#include "Yaxl/Math/YaxlRandom.h"
+#include "Yaxl/Math/YaxlRect.h"
+#include "Yaxl/Math/YaxlVector2.h"
+#include "Yaxl/Math/YaxlVector3.h"
+#include "Yaxl/Math/YaxlVector4.h"
 
 #endif

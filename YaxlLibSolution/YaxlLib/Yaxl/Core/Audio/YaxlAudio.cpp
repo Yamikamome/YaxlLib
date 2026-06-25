@@ -5,7 +5,7 @@
 #include <miniaudio/miniaudio.h>
 #include <unordered_map>
 #include <vector>
-#include "Math/YaxlVector3.h"
+#include "Yaxl/Math/YaxlVector3.h"
 
 namespace {
 	struct SEPool {

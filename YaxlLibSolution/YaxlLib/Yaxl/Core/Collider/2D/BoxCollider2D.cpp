@@ -2,8 +2,8 @@
 #include "CircleCollider2D.h"
 #include "RectCollider2D.h"
 
-#include "Graphics/YaxlGraphics.h"
-#include "Math/YaxlMath.h"
+#include "Yaxl/Graphics/YaxlGraphics.h"
+#include "Yaxl/Math/YaxlMath.h"
 
 using namespace Yaxl;
 

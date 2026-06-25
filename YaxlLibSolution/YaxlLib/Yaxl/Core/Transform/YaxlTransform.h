@@ -8,9 +8,9 @@
 #define YAXL_TRANSFORM_H_
 
 #include "YaxlLibLink.h"
-#include "Math/YaxlMatrix4x4.h"
-#include "Math/YaxlQuaternion.h"
-#include "Math/YaxlVector3.h"
+#include "Yaxl/Math/YaxlMatrix4x4.h"
+#include "Yaxl/Math/YaxlQuaternion.h"
+#include "Yaxl/Math/YaxlVector3.h"
 #include <vector>
 
 namespace Yaxl {

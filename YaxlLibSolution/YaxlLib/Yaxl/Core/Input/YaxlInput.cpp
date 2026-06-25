@@ -1,5 +1,5 @@
 #include "YaxlInput.h"
-#include "Graphics/YaxlGraphicsDevice.h"
+#include "Yaxl/Graphics/YaxlGraphicsDevice.h"
 #include <GLFW/glfw3.h>
 
 using namespace Yaxl;

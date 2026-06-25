@@ -4,11 +4,11 @@
 #include <thread>
 #include <chrono>
 
-#include "Core/Audio/YaxlAudioInternal.h"
-#include "Core/Time/YaxlTimeInternal.h"
-#include "Graphics/YaxlGraphicsDevice.h"
-#include "Graphics/YaxlGraphicsInternal.h"
-#include "Graphics/DebugGui/YaxlDebugGui.h"
+#include "Yaxl/Core/Audio/YaxlAudioInternal.h"
+#include "Yaxl/Core/Time/YaxlTimeInternal.h"
+#include "Yaxl/Graphics/YaxlGraphicsDevice.h"
+#include "Yaxl/Graphics/YaxlGraphicsInternal.h"
+#include "Yaxl/Graphics/DebugGui/YaxlDebugGui.h"
 
 using namespace Yaxl;
 using namespace Internal;

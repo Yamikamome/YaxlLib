@@ -7,8 +7,8 @@
 #define YAXL_TRANSFORM_2D_H_
 
 #include "YaxlLibLink.h"
-#include "Math/YaxlMatrix3x3.h"
-#include "Math/YaxlVector2.h"
+#include "Yaxl/Math/YaxlMatrix3x3.h"
+#include "Yaxl/Math/YaxlVector2.h"
 #include <vector>
 
 namespace Yaxl {

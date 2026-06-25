@@ -6,7 +6,7 @@
 #ifndef YAXL_COLLIDER_2D_H_
 #define YAXL_COLLIDER_2D_H_
 
-#include "Math/YaxlVector2.h"
+#include "Yaxl/Math/YaxlVector2.h"
 
 namespace Yaxl {
 
